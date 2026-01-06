@@ -2206,6 +2206,7 @@ MonoBehaviour:
   currentAmmo: 0
   totalClips: 3
   scoreManager: {fileID: 0}
+  bulletManager: {fileID: 1508831833070378027, guid: 4649d375e413a7b40b94428d87b30636, type: 3}
   isInventoryOpen: 0
 --- !u!114 &3816451016910740564
 MonoBehaviour:

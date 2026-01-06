@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,15 +14,32 @@ public class Bullet : MonoBehaviour
     private Rigidbody bulletRigid;
     [SerializeField] public ScoreManager scoreManager;
 
+    [SerializeField] private float maxLife=3.0f;
+    private float lifeTimer;
+
     private void Awake()
     {
         bulletRigid = GetComponent<Rigidbody>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        Destroy(gameObject, 3.0f);
 
+    private void OnEnable()
+    {
+        lifeTimer = 0f;
+
+        if (bulletRigid != null)
+        {
+            bulletRigid.velocity = Vector3.zero;
+            bulletRigid.angularVelocity = Vector3.zero;
+        }
+    }
+
+    private void Update()
+    {
+        lifeTimer += Time.deltaTime;
+        if (lifeTimer >= maxLife)
+        {
+            ReturnPool();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,7 +52,7 @@ public class Bullet : MonoBehaviour
                 enemy.TakeDamage(baseDamage * 3);
                 scoreManager?.AddScore(150);
             }
-            Destroy(gameObject);
+            ReturnPool();
         }
         else if (owner == BulletOwner.Player && other.CompareTag("EnemyBody"))
         {
@@ -45,7 +62,7 @@ public class Bullet : MonoBehaviour
                 enemy.TakeDamage(baseDamage);
                 scoreManager?.AddScore(100);
             }
-            Destroy(gameObject);
+            ReturnPool();
         }
         else if (owner == BulletOwner.Enemy && other.CompareTag("PlayerBody"))
         {
@@ -54,7 +71,7 @@ public class Bullet : MonoBehaviour
             {
                 player.TakeDamage(baseDamage);
             }
-            Destroy(gameObject);
+            ReturnPool();
         }
         else if (owner == BulletOwner.Enemy && other.CompareTag("PlayerHead"))
         {
@@ -63,19 +80,24 @@ public class Bullet : MonoBehaviour
             {
                 player.TakeDamage(baseDamage * 3);
             }
-            Destroy(gameObject);
+            ReturnPool();
         }
         else if (other.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            ReturnPool();
         }
     }
 
-    //ÃÑ¾ËÀÌ ¹ß»çµÉ ¶§ ÁöÁ¤µÈ ¹æÇâ°ú ¼Óµµ¸¦ ¸®Áöµå¹Ùµğ¿¡ Àû¿ëÇØ¼­ ½ÇÁ¦·Î ³¯¾Æ°¡°Ô ÇÔ
+    //ì´ì•Œì´ ë°œì‚¬ë  ë•Œ ì§€ì •ëœ ë°©í–¥ê³¼ ì†ë„ë¥¼ ë¦¬ì§€ë“œë°”ë””ì— ì ìš©í•´ì„œ ì‹¤ì œë¡œ ë‚ ì•„ê°€ê²Œ í•¨
     public void Shot(Vector3 dir, float speed)
     {
         moveSpeed = speed;
-        //rigidÀÇ ¼Óµµ ¼³Á¤
+        //rigidì˜ ì†ë„ ì„¤ì •
         bulletRigid.velocity = dir * moveSpeed;
+    }
+
+    private void ReturnPool() 
+    {
+        gameObject.SetActive(false);
     }
 }
