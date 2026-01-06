@@ -70,6 +70,7 @@ public class PlayerShooter : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("PlayerShooter Update Running");
         if (InputLockManager.Blocked)
             return;
 
