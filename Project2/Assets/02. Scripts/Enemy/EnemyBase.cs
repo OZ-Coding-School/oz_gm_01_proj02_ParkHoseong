@@ -12,28 +12,34 @@ public class EnemyBase : MonoBehaviour
     [Header("Ranged Attack")]
     [SerializeField] private Transform firePoint;
     [SerializeField] private float bulletSpeed = 30f;
-    [SerializeField] private BulletManager bulletManager;
 
     private NavMeshAgent agent;
-    private Transform player;
+    
     private int currentHp;
     private bool isDead = false;
     private bool canSeePlayer = false;
-
     private float lastAttackTime;
+
+    private EnemyManager enemyManager;
+    private BulletManager bulletManager;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        //일반 Stage->Manager자식으로 적들 넣기
+        //Infinite Stage->Manager 자식으로 스포너 넣기
+        enemyManager = GetComponentInParent<EnemyManager>();
         currentHp = data.baseHp;
     }
 
     void Start()
     {
-        if (player == null)
+        if (bulletManager == null)
         {
-            GameObject p = GameObject.FindGameObjectWithTag(data.playerTag);
-            if (p != null) player = p.transform;
+            GameObject bmObj = GameObject.Find("EnemyBulletManager");
+            if (bmObj != null)
+                bulletManager = bmObj.GetComponent<BulletManager>();
         }
 
         agent.speed = data.baseMoveSpeed;
@@ -41,7 +47,7 @@ public class EnemyBase : MonoBehaviour
 
     void Update()
     {
-        if (isDead || player == null) return;
+        if (isDead) return;
 
         UpdateSight();
         HandleChase();
@@ -52,8 +58,8 @@ public class EnemyBase : MonoBehaviour
     {
         canSeePlayer = false;
 
-        Vector3 dirToPlayer = (player.position - transform.position).normalized;
-        float distToPlayer = Vector3.Distance(transform.position, player.position);
+        Vector3 dirToPlayer = (enemyManager.PlayerPosition - transform.position).normalized;
+        float distToPlayer = Vector3.Distance(transform.position, enemyManager.PlayerPosition);
 
         if (distToPlayer > data.findRange)
             return;
@@ -71,14 +77,14 @@ public class EnemyBase : MonoBehaviour
     // 추격 / 공격 거리 제어
     void HandleChase()
     {
-        float dist = Vector3.Distance(transform.position, player.position);
+        float dist = Vector3.Distance(transform.position, enemyManager.PlayerPosition);
 
         if (canSeePlayer)
         {
             if (dist > data.attackRange)
             {
                 agent.isStopped = false;
-                agent.SetDestination(player.position);
+                agent.SetDestination(enemyManager.PlayerPosition);
             }
             else
             {
@@ -104,7 +110,7 @@ public class EnemyBase : MonoBehaviour
 
         lastAttackTime = Time.time;
 
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        PlayerHealth playerHealth = enemyManager.GetPlayerTransform().GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(data.meleeDamage);
@@ -122,7 +128,7 @@ public class EnemyBase : MonoBehaviour
 
         lastAttackTime = Time.time;
 
-        Vector3 dir = (player.position - firePoint.position).normalized;
+        Vector3 dir = (enemyManager.PlayerPosition - firePoint.position).normalized;
 
         GameObject bulletObj = bulletManager.GetBulletPrefab();
         if (bulletObj == null)
@@ -141,7 +147,6 @@ public class EnemyBase : MonoBehaviour
         Debug.Log($"{data.enemyName} 원거리 공격!");
     }
 
-    // -------------------------------
     // 체력 관리
     public void TakeDamage(int amount)
     {
