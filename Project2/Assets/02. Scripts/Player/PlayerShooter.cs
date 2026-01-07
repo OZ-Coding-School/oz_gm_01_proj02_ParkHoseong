@@ -1,11 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerShooter : MonoBehaviour
 {
-    [Header("ÃÑ¾Ë ¼¼ÆÃ")]
+    [Header("ì´ì•Œ ì„¸íŒ…")]
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 40f;
@@ -14,37 +14,40 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private Transform gunMuzzle;
     [SerializeField] private float mouseSensitivity = 2.0f;
 
-    [Header("»ç°İ / ÁÜ ¼³Á¤")]
-    [SerializeField] private float fireRate = 0.1f;     // ¿¬»ç °£°İ
-    [SerializeField] private float zoomFOV = 20f;       // ½ºÄÚÇÁ ¹èÀ² (3¹è ÁÜ)
-    [SerializeField] private float normalFOV = 60f;     // ±âº» ½Ã¾ß
-    [SerializeField] private float zoomSpeed = 10f;     // ÁÜ ÀüÈ¯ ºÎµå·¯¿ò
-    [SerializeField] private float zoomSensitivityMultiplier = 0.5f; // ÁÜ Áß °¨µµ °¨¼Ò
+    [Header("ì‚¬ê²© / ì¤Œ ì„¤ì •")]
+    [SerializeField] private float fireRate = 0.1f;     // ì—°ì‚¬ ê°„ê²©
+    [SerializeField] private float zoomFOV = 20f;       // ìŠ¤ì½”í”„ ë°°ìœ¨ (3ë°° ì¤Œ)
+    [SerializeField] private float normalFOV = 60f;     // ê¸°ë³¸ ì‹œì•¼
+    [SerializeField] private float zoomSpeed = 10f;     // ì¤Œ ì „í™˜ ë¶€ë“œëŸ¬ì›€
+    [SerializeField] private float zoomSensitivityMultiplier = 0.5f; // ì¤Œ ì¤‘ ê°ë„ ê°ì†Œ
 
-    [Header("ÃÑ±â Á¤·Ä")]
-    [SerializeField] private Transform gunRoot;  // ÃÑ ·çÆ®
-    [SerializeField] private Vector3 normalPos = new Vector3(0.4f, -0.3f, 0.5f); // Æò¼Ò À§Ä¡
-    [SerializeField] private Vector3 zoomPos = new Vector3(0f, -0.1f, 0.8f);    // ÁÜ ½Ã Áß¾Ó À§Ä¡
-    [SerializeField] private float alignSpeed = 10f; // ÀÌµ¿ ¼Óµµ
+    [Header("ì´ê¸° ì •ë ¬")]
+    [SerializeField] private Transform gunRoot;  // ì´ ë£¨íŠ¸
+    [SerializeField] private Vector3 normalPos = new Vector3(0.4f, -0.3f, 0.5f); // í‰ì†Œ ìœ„ì¹˜
+    [SerializeField] private Vector3 zoomPos = new Vector3(0f, -0.1f, 0.8f);    // ì¤Œ ì‹œ ì¤‘ì•™ ìœ„ì¹˜
+    [SerializeField] private float alignSpeed = 10f; // ì´ë™ ì†ë„
 
     [Header("UI")]
-    [SerializeField] private Image crosshair;     // Á¶ÁØÁ¡ ÀÌ¹ÌÁö
-    [SerializeField] private Image scopeOverlay;  // ½ºÄÚÇÁ ¿À¹ö·¹ÀÌ ÀÌ¹ÌÁö (ÁÜ ½Ã Ç¥½Ã)
+    [SerializeField] private Image crosshair;     // ì¡°ì¤€ì  ì´ë¯¸ì§€
+    [SerializeField] private Image scopeOverlay;  // ìŠ¤ì½”í”„ ì˜¤ë²„ë ˆì´ ì´ë¯¸ì§€ (ì¤Œ ì‹œ í‘œì‹œ)
 
-    [Header("Åº¾à ¼¼ÆÃ")]
+    [Header("íƒ„ì•½ ì„¸íŒ…")]
     [SerializeField] private int maxAmmo = 30;
     [SerializeField] private int currentAmmo;
     [SerializeField] private int totalClips = 3;
 
-    [Header("°ÔÀÓ °ü¸®")]
+    [Header("ê²Œì„ ê´€ë¦¬")]
     [SerializeField] public ScoreManager scoreManager;
+
+    [Header("Bullet Pool")]
+    [SerializeField] private BulletManager bulletManager;
 
     public bool isInventoryOpen = false;
 
     private float pitch;
     private float nextFireTime;
     private bool isZooming;
-    private bool isAutoFire = true; // true: ¿¬»ç / false: ´Ü¹ß
+    private bool isAutoFire = true; // true: ì—°ì‚¬ / false: ë‹¨ë°œ
     private float originalSensitivity;
 
     void Start()
@@ -75,10 +78,10 @@ public class PlayerShooter : MonoBehaviour
         HandleReload();
         HandleZoom();
         HandleFireModeSwitch();
-        HandleGunAlignment(); // ÃÑ±â Á¤·Ä Ã³¸®
+        HandleGunAlignment(); // ì´ê¸° ì •ë ¬ ì²˜ë¦¬
     }
 
-    // ¸¶¿ì½º È¸Àü
+    // ë§ˆìš°ìŠ¤ íšŒì „
     void HandleLook()
     {
         float mx = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -89,12 +92,12 @@ public class PlayerShooter : MonoBehaviour
         if (pitchRoot) pitchRoot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
-    // ¹ß»ç Ã³¸® (¿¬»ç/´Ü¹ß)
+    // ë°œì‚¬ ì²˜ë¦¬ (ì—°ì‚¬/ë‹¨ë°œ)
     void HandleFire()
     {
         if (isAutoFire)
         {
-            // ¿¬»ç ¸ğµå: ÁÂÅ¬¸¯ À¯Áö
+            // ì—°ì‚¬ ëª¨ë“œ: ì¢Œí´ë¦­ ìœ ì§€
             if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
             {
                 nextFireTime = Time.time + fireRate;
@@ -103,7 +106,7 @@ public class PlayerShooter : MonoBehaviour
         }
         else
         {
-            // ´Ü¹ß ¸ğµå: ÁÂÅ¬¸¯ ´­·¶À» ¶§¸¸
+            // ë‹¨ë°œ ëª¨ë“œ: ì¢Œí´ë¦­ ëˆŒë €ì„ ë•Œë§Œ
             if (Input.GetMouseButtonDown(0))
             {
                 Shoot();
@@ -111,21 +114,21 @@ public class PlayerShooter : MonoBehaviour
         }
     }
 
-    // ÀçÀåÀü
+    // ì¬ì¥ì „
     void HandleReload()
     {
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
     }
 
-    // ¿¬»ç/´Ü¹ß ÀüÈ¯ (BÅ°)
+    // ì—°ì‚¬/ë‹¨ë°œ ì „í™˜ (Bí‚¤)
     void HandleFireModeSwitch()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
             isAutoFire = !isAutoFire;
-            string mode = isAutoFire ? "¿¬»ç" : "´Ü¹ß";
-            Debug.Log($"»ç°İ ¸ğµå ÀüÈ¯: {mode}");
+            string mode = isAutoFire ? "ì—°ì‚¬" : "ë‹¨ë°œ";
+            Debug.Log($"ì‚¬ê²© ëª¨ë“œ ì „í™˜: {mode}");
         }
     }
 
@@ -138,7 +141,7 @@ public class PlayerShooter : MonoBehaviour
             isZooming = true;
             mouseSensitivity = originalSensitivity * zoomSensitivityMultiplier;
 
-            // ÁÜ ½Ã ½ºÄÚÇÁ ¿À¹ö·¹ÀÌ¸¸ Ç¥½Ã
+            // ì¤Œ ì‹œ ìŠ¤ì½”í”„ ì˜¤ë²„ë ˆì´ë§Œ í‘œì‹œ
             if (scopeOverlay != null) scopeOverlay.enabled = true;
         }
 
@@ -147,7 +150,7 @@ public class PlayerShooter : MonoBehaviour
             isZooming = false;
             mouseSensitivity = originalSensitivity;
 
-            // ÁÜ ÇØÁ¦ ½Ã ¿À¹ö·¹ÀÌ ºñÈ°¼ºÈ­
+            // ì¤Œ í•´ì œ ì‹œ ì˜¤ë²„ë ˆì´ ë¹„í™œì„±í™”
             if (scopeOverlay != null) scopeOverlay.enabled = false;
         }
 
@@ -155,7 +158,7 @@ public class PlayerShooter : MonoBehaviour
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
     }
 
-    // ÁÜ Áß ÃÑ±â À§Ä¡ Áß¾Ó Á¤·Ä
+    // ì¤Œ ì¤‘ ì´ê¸° ìœ„ì¹˜ ì¤‘ì•™ ì •ë ¬
     void HandleGunAlignment()
     {
         if (gunRoot == null) return;
@@ -164,20 +167,31 @@ public class PlayerShooter : MonoBehaviour
         gunRoot.localPosition = Vector3.Lerp(gunRoot.localPosition, targetPos, Time.deltaTime * alignSpeed);
     }
 
-
     void Shoot()
     {
-        if (cam == null || bulletPrefab == null || gunMuzzle == null)
+        if (cam == null || gunMuzzle == null)
             return;
 
         if (currentAmmo <= 0)
         {
-            Debug.Log("Åº¾à ºÎÁ·! ÀçÀåÀü ÇÊ¿ä");
+            Debug.Log("íƒ„ì•½ ë¶€ì¡±! ì¬ì¥ì „ í•„ìš”");
             return;
         }
 
         Vector3 dir = cam.transform.forward;
-        GameObject go = Instantiate(bulletPrefab, gunMuzzle.position, Quaternion.LookRotation(dir));
+        if (bulletManager == null)
+        {
+            Debug.Log("BulletManagerê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤");
+            return;
+        }
+
+        GameObject go = bulletManager.GetBulletPrefab();
+        if (go == null)
+            return;
+
+        go.transform.position = gunMuzzle.position;
+        go.transform.rotation = Quaternion.LookRotation(dir);
+        go.SetActive(true);
 
         if (go.TryGetComponent(out Bullet b))
         {
@@ -187,7 +201,7 @@ public class PlayerShooter : MonoBehaviour
 
         currentAmmo--;
         scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
-        Debug.Log($"¹ß»ç! ³²Àº Åº¾à: {currentAmmo}/{maxAmmo}, ¿¹ºñ ÅºÃ¢: {totalClips}");
+        Debug.Log($"ë°œì‚¬! ë‚¨ì€ íƒ„ì•½: {currentAmmo}/{maxAmmo}, ì˜ˆë¹„ íƒ„ì°½: {totalClips}");
     }
 
     void Reload()
@@ -197,11 +211,11 @@ public class PlayerShooter : MonoBehaviour
             totalClips--;
             currentAmmo = maxAmmo;
             scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
-            Debug.Log($"ÀçÀåÀü ¿Ï·á! ÇöÀç Åº¾à: {currentAmmo}/{maxAmmo}, ¿¹ºñ ÅºÃ¢: {totalClips}");
+            Debug.Log($"ì¬ì¥ì „ ì™„ë£Œ! í˜„ì¬ íƒ„ì•½: {currentAmmo}/{maxAmmo}, ì˜ˆë¹„ íƒ„ì°½: {totalClips}");
         }
         else
         {
-            Debug.Log("ÀçÀåÀü ºÒ°¡ (¿¹ºñ ÅºÃ¢ ¾øÀ½)");
+            Debug.Log("ì¬ì¥ì „ ë¶ˆê°€ (ì˜ˆë¹„ íƒ„ì°½ ì—†ìŒ)");
         }
     }
 
@@ -209,6 +223,6 @@ public class PlayerShooter : MonoBehaviour
     {
         totalClips += clips;
         scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
-        Debug.Log($"¿¹ºñ ÅºÃ¢ Ãß°¡! ÇöÀç ¿¹ºñ ÅºÃ¢: {totalClips}");
+        Debug.Log($"ì˜ˆë¹„ íƒ„ì°½ ì¶”ê°€! í˜„ì¬ ì˜ˆë¹„ íƒ„ì°½: {totalClips}");
     }
 }

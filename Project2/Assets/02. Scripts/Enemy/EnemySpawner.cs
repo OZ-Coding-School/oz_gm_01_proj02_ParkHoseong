@@ -1,33 +1,47 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    [SerializeField] private EnemyData[] enemyDatas; // »ı¼ºÇÒ Àû Á¾·ù
-    [SerializeField] private Transform[] spawnPoints; // ½ºÆù À§Ä¡µé
-    [SerializeField] private float spawnInterval = 5f; // »ı¼º °£°İ
-    [SerializeField] private int maxEnemies = 10; // µ¿½Ã¿¡ Á¸Àç °¡´ÉÇÑ ÃÖ´ë ¼ö
+    [SerializeField] private GameObject enemyPrefab; //ìƒì„±í•  ì  ì¢…ë¥˜
+    [SerializeField] private Transform[] spawnPoints; //ìŠ¤í° ìœ„ì¹˜ë“¤
+    [SerializeField] private float spawnInterval = 5f; //ìƒì„± ê°„ê²©
+    [SerializeField] private int poolSize = 20; //ë™ì‹œì— ì¡´ì¬ ê°€ëŠ¥í•œ ìµœëŒ€ ìˆ˜
 
-    [Header("¿şÀÌºê ¼³Á¤ (¼±ÅÃ)")]
+    [Header("ì›¨ì´ë¸Œ ì„¤ì • (ì„ íƒ)")]
     [SerializeField] private bool useWave = false;
     [SerializeField] private int enemiesPerWave = 5;
     [SerializeField] private float waveDelay = 10f;
 
-    private readonly List<GameObject> activeEnemies = new List<GameObject>();
+    private GameObject[] enemyPool;
     private bool spawning = false;
 
     void Start()
     {
-        if (enemyDatas.Length == 0 || spawnPoints.Length == 0)
+        if (enemyPrefab == null || spawnPoints == null || spawnPoints.Length == 0)
         {
-            Debug.LogWarning("EnemySpawner: EnemyData³ª SpawnPoint°¡ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("EnemySpawner: EnemyPrefab í˜¹ì€ SpawnPointê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        StartCoroutine(useWave ? SpawnWaveRoutine() : SpawnContinuousRoutine());
+        CreatePool();
+
+        if (useWave)
+            StartCoroutine(SpawnWaveRoutine());
+        else
+            StartCoroutine(SpawnContinuousRoutine());
+    }
+
+    void CreatePool()
+    { 
+        enemyPool=new GameObject[poolSize];
+        for (int i = 0; i < poolSize; i++)
+        {
+            enemyPool[i] = Instantiate(enemyPrefab, transform);
+            enemyPool[i].SetActive(false);
+        }
     }
 
     IEnumerator SpawnContinuousRoutine()
@@ -36,9 +50,7 @@ public class EnemySpawner : MonoBehaviour
         while (spawning)
         {
             yield return new WaitForSeconds(spawnInterval);
-            CleanupDeadEnemies();
-            if (activeEnemies.Count < maxEnemies)
-                SpawnEnemy();
+            SpawnEnemy();
         }
     }
 
@@ -47,10 +59,8 @@ public class EnemySpawner : MonoBehaviour
         spawning = true;
         while (spawning)
         {
-            CleanupDeadEnemies();
-
-            int spawnCount = Mathf.Min(enemiesPerWave, maxEnemies - activeEnemies.Count);
-            for (int i = 0; i < spawnCount; i++)
+            
+            for (int i = 0; i < enemiesPerWave; i++)
                 SpawnEnemy();
 
             yield return new WaitForSeconds(waveDelay);
@@ -59,37 +69,27 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        // ·£´ı µ¥ÀÌÅÍ¿Í À§Ä¡ ¼±ÅÃ
-        EnemyData data = enemyDatas[Random.Range(0, enemyDatas.Length)];
-        Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-        if (data.prefab == null)
-        {
-            Debug.LogWarning($"EnemyData {data.name}ÀÇ prefabÀÌ ºñ¾îÀÖ½À´Ï´Ù.");
+        GameObject enemy = GetInactive();
+        if (enemy == null)
             return;
-        }
 
-        GameObject enemy = Instantiate(data.prefab, point.position, point.rotation);
-        if (enemy.TryGetComponent(out EnemyBase baseComp))
-        {
-            // µ¥ÀÌÅÍ Á÷Á¢ ÁÖÀÔ (prefab¿¡ ¾øÀ» ¶§ ´ëºñ)
-            var field = typeof(EnemyBase).GetField("data", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field?.SetValue(baseComp, data);
-        }
-
-        activeEnemies.Add(enemy);
+        Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        enemy.transform.position = point.position;
+        enemy.transform.rotation = point.rotation;
+        enemy.SetActive(true);
     }
 
-    void CleanupDeadEnemies()
+    private GameObject GetInactive()
     {
-        for (int i = activeEnemies.Count - 1; i >= 0; i--)
-        {
-            if (activeEnemies[i] == null || !activeEnemies[i].activeInHierarchy)
-                activeEnemies.RemoveAt(i);
+        for (int i = 0; i < enemyPool.Length; i++)
+        { 
+            if (!enemyPool[i].activeSelf)
+                return enemyPool[i];
         }
+        return null;
     }
 
-    // ¿¡µğÅÍ µğ¹ö±×¿ë
+    // ì—ë””í„° ë””ë²„ê·¸ìš©
     private void OnDrawGizmos()
     {
         if (spawnPoints == null) return;

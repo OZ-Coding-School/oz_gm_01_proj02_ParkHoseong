@@ -4,29 +4,40 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - WhiteTarget
-  - RedTarget
-  - YellowTarget
-  - EnemyHead
-  - EnemyBody
   - Wall
+  - Metal
+  - Blood
+  - Dirt
+  - Concrete
+  - ExplosiveBarrel
+  - Target
+  - GasTank
+  - Metal (Static)
+  - Wood (Static)
+  - Dirt (Static)
+  - Wood
+  - EnemyBody
+  - EnemyHead
+  - YellowTarget
+  - RedTarget
+  - WhiteTarget
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ground
   - Water
   - UI
-  - Ground
-  - Enemy
-  - Player
+  - 
+  - 
   - Wall
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - First Person View
+  - Character
+  - Post Processing
+  - Post Processing Weapon
+  - Post Processing Scope
+  - Invisible Wall
+  - Projectile
   - 
   - 
   - 

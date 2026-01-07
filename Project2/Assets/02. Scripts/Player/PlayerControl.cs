@@ -32,6 +32,7 @@ public class PlayerControl : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            Debug.Log($"[Update] Space pressed | isGrounded = {isGrounded}");
             jumpRequested = true;
         }
     }
@@ -48,7 +49,7 @@ public class PlayerControl : MonoBehaviour
     }
     void PlayerMove()
     {
-        Vector3 currentVel=rb.velocity;
+        Vector3 currentVel = rb.velocity;
         Vector3 newVel = new Vector3(horizontal * movespeed, currentVel.y, vertical * movespeed);
         rb.velocity = Vector3.Lerp(rb.velocity, newVel, Time.deltaTime * 10.0f);
     }
