@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerShooter : MonoBehaviour
@@ -85,8 +86,9 @@ public class PlayerShooter : MonoBehaviour
     // 마우스 회전
     void HandleLook()
     {
-        float mx = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float my = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        Vector2 look = Mouse.current.delta.ReadValue();
+        float mx = look.x * mouseSensitivity * Time.deltaTime;
+        float my = look.y * mouseSensitivity * Time.deltaTime;
 
         if (yawRoot) yawRoot.Rotate(Vector3.up, mx, Space.World);
         pitch = Mathf.Clamp(pitch - my, -85f, 85f);
@@ -96,10 +98,12 @@ public class PlayerShooter : MonoBehaviour
     // 발사 처리 (연사/단발)
     void HandleFire()
     {
+        if (Mouse.current == null)
+            return;
+
         if (isAutoFire)
         {
-            // 연사 모드: 좌클릭 유지
-            if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
+            if (Mouse.current.leftButton.isPressed && Time.time >= nextFireTime)
             {
                 nextFireTime = Time.time + fireRate;
                 Shoot();
@@ -107,8 +111,7 @@ public class PlayerShooter : MonoBehaviour
         }
         else
         {
-            // 단발 모드: 좌클릭 눌렀을 때만
-            if (Input.GetMouseButtonDown(0))
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 Shoot();
             }
@@ -118,14 +121,14 @@ public class PlayerShooter : MonoBehaviour
     // 재장전
     void HandleReload()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
             Reload();
     }
 
     // 연사/단발 전환 (B키)
     void HandleFireModeSwitch()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Keyboard.current != null && Keyboard.current.bKey.wasPressedThisFrame)
         {
             isAutoFire = !isAutoFire;
             string mode = isAutoFire ? "연사" : "단발";
@@ -135,23 +138,20 @@ public class PlayerShooter : MonoBehaviour
 
     void HandleZoom()
     {
-        if (cam == null) return;
+        if (cam == null || Mouse.current == null)
+            return;
 
-        if (Input.GetMouseButtonDown(1))
+        if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             isZooming = true;
             mouseSensitivity = originalSensitivity * zoomSensitivityMultiplier;
-
-            // 줌 시 스코프 오버레이만 표시
             if (scopeOverlay != null) scopeOverlay.enabled = true;
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (Mouse.current.rightButton.wasReleasedThisFrame)
         {
             isZooming = false;
             mouseSensitivity = originalSensitivity;
-
-            // 줌 해제 시 오버레이 비활성화
             if (scopeOverlay != null) scopeOverlay.enabled = false;
         }
 
