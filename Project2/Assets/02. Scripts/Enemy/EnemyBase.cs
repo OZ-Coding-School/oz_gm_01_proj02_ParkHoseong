@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -6,11 +6,21 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField] private EnemyData data;
 
+    [Header("Attack Cool")]
+    [SerializeField] private float attackCool = 1.0f;
+
+    [Header("Ranged Attack")]
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float bulletSpeed = 30f;
+    [SerializeField] private BulletManager bulletManager;
+
     private NavMeshAgent agent;
     private Transform player;
     private int currentHp;
     private bool isDead = false;
     private bool canSeePlayer = false;
+
+    private float lastAttackTime;
 
     void Awake()
     {
@@ -37,8 +47,7 @@ public class EnemyBase : MonoBehaviour
         HandleChase();
     }
 
-    // -------------------------------
-    // ½Ã¾ß ÆÇÁ¤
+    // ì‹œì•¼ íŒì •
     void UpdateSight()
     {
         canSeePlayer = false;
@@ -59,8 +68,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    // -------------------------------
-    // Ãß°İ / °ø°İ °Å¸® Á¦¾î
+    // ì¶”ê²© / ê³µê²© ê±°ë¦¬ ì œì–´
     void HandleChase()
     {
         float dist = Vector3.Distance(transform.position, player.position);
@@ -88,22 +96,53 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    // -------------------------------
-    // °ø°İ Ã³¸®
+    // ê³µê²© ì²˜ë¦¬
     void AttackMelee()
     {
-        // ÀÓ½Ã: ±ÙÁ¢ µ¥¹ÌÁö
-        Debug.Log($"{data.enemyName} ±ÙÁ¢ °ø°İ! {data.meleeDamage} ÇÇÇØ");
+        if (Time.time < lastAttackTime + attackCool)
+            return;
+
+        lastAttackTime = Time.time;
+
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(data.meleeDamage);
+            Debug.Log($"{data.enemyName} ê·¼ì ‘ ê³µê²© ì„±ê³µ!");
+        }
     }
 
     void AttackRanged()
     {
-        // ÀÓ½Ã: ÃÑ±âÇü °ø°İ
-        Debug.Log($"{data.enemyName} ¿ø°Å¸® °ø°İ!");
+        if (Time.time < lastAttackTime + attackCool)
+            return;
+
+        if (bulletManager == null || firePoint == null)
+            return;
+
+        lastAttackTime = Time.time;
+
+        Vector3 dir = (player.position - firePoint.position).normalized;
+
+        GameObject bulletObj = bulletManager.GetBulletPrefab();
+        if (bulletObj == null)
+            return;
+
+        bulletObj.transform.position = firePoint.position;
+        bulletObj.transform.rotation = Quaternion.LookRotation(dir);
+        bulletObj.SetActive(true);
+
+        if (bulletObj.TryGetComponent(out Bullet bullet))
+        {
+            bullet.owner = Bullet.BulletOwner.Enemy;
+            bullet.Shot(dir, bulletSpeed);
+        }
+
+        Debug.Log($"{data.enemyName} ì›ê±°ë¦¬ ê³µê²©!");
     }
 
     // -------------------------------
-    // Ã¼·Â °ü¸®
+    // ì²´ë ¥ ê´€ë¦¬
     public void TakeDamage(int amount)
     {
         if (isDead) return;
@@ -119,12 +158,12 @@ public class EnemyBase : MonoBehaviour
     {
         isDead = true;
         agent.isStopped = true;
-        Debug.Log($"{data.enemyName} »ç¸Á");
+        Debug.Log($"{data.enemyName} ì‚¬ë§");
         gameObject.SetActive(false);
     }
 
     // -------------------------------
-    // ½Ã¾ß µğ¹ö±× Ç¥½Ã
+    // ì‹œì•¼ ë””ë²„ê·¸ í‘œì‹œ
     private void OnDrawGizmosSelected()
     {
         if (data == null) return;
