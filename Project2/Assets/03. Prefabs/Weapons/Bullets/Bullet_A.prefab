@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
-  moveSpeed: 900
+  moveSpeed: 300
   baseDamage: 40
   scoreManager: {fileID: 0}
   maxLife: 3

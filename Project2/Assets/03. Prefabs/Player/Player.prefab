@@ -551,8 +551,8 @@ GameObject:
   - component: {fileID: 8471056161196783464}
   - component: {fileID: 5780975614211921837}
   m_Layer: 7
-  m_Name: Capsule
-  m_TagString: EnemyBody
+  m_Name: PlayerBody
+  m_TagString: PlayerBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
