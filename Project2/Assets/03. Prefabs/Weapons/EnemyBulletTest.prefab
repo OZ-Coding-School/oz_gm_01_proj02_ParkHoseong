@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5354232549800763123}
   - component: {fileID: 2576401422929422897}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: EnemyBulletTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7acbdc107b25f34499086d3398d01eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: 0
+  owner: 1
   moveSpeed: 10
   baseDamage: 40
   scoreManager: {fileID: 0}
