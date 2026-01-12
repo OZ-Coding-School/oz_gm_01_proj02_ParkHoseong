@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cc347cc322530846bd9195c9f392624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5689286189246344068, guid: 85730807e111f334688595e17a7680af,
+  bulletPrefab: {fileID: 5896815481570757752, guid: bdbe99911b104c44cbd74b7cb58c4f0b,
     type: 3}
   poolSize: 60
 --- !u!1 &2502518858910631875
