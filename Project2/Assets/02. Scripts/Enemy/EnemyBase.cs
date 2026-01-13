@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -22,6 +23,7 @@ public class EnemyBase : MonoBehaviour
 
     private EnemyManager enemyManager;
     private BulletManager bulletManager;
+    private Animator anim;
 
     void Awake()
     {
@@ -31,6 +33,7 @@ public class EnemyBase : MonoBehaviour
         //Infinite Stage->Manager 자식으로 스포너 넣기
         enemyManager = GetComponentInParent<EnemyManager>();
         currentHp = data.baseHp;
+        anim = GetComponentInChildren<Animator>();
     }
 
     void Start()
@@ -48,6 +51,8 @@ public class EnemyBase : MonoBehaviour
     void Update()
     {
         if (isDead) return;
+
+        anim.SetFloat("Speed", agent.velocity.magnitude);
 
         UpdateSight();
         HandleChase();
@@ -74,7 +79,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    // 추격 / 공격 거리 제어
+    //추격/공격 거리 제어
     void HandleChase()
     {
         float dist = Vector3.Distance(transform.position, enemyManager.PlayerPosition);
@@ -102,7 +107,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    // 공격 처리
+    //공격 처리
     void AttackMelee()
     {
         if (Time.time < lastAttackTime + attackCool)
@@ -127,6 +132,8 @@ public class EnemyBase : MonoBehaviour
             return;
 
         lastAttackTime = Time.time;
+
+        anim.SetTrigger("Attack");
 
         Vector3 dir = (enemyManager.PlayerPosition - firePoint.position).normalized;
 
@@ -163,11 +170,50 @@ public class EnemyBase : MonoBehaviour
     {
         isDead = true;
         agent.isStopped = true;
+
+        anim.SetTrigger("Die");
+
+        StartCoroutine(DisableAfterDelay(2.5f));
+
         Debug.Log($"{data.enemyName} 사망");
-        gameObject.SetActive(false);
     }
 
-    // -------------------------------
+    private IEnumerator DisableAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); //설정한 시간만큼 대기
+        gameObject.SetActive(false); //시간이 지난 후 꺼짐
+    }
+
+    public void Setup()
+    {
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+        if (anim == null) anim = GetComponentInChildren<Animator>();
+
+        if (data == null)
+        {
+            Debug.LogError($"{gameObject.name}: EnemyData(data)가 할당되지 않았습니다!");
+            return;
+        }
+
+        currentHp = data.baseHp;
+        isDead = false;
+
+        if (agent != null)
+        {
+            agent.enabled = true;
+            agent.isStopped = false;
+            agent.speed = data.baseMoveSpeed;
+            if (agent.isOnNavMesh) agent.ResetPath();
+        }
+
+        if (anim != null)
+        {
+            anim.Rebind();
+            anim.Update(0f);
+        }
+        if (TryGetComponent(out Collider col)) col.enabled = true;
+    }
+
     // 시야 디버그 표시
     private void OnDrawGizmosSelected()
     {

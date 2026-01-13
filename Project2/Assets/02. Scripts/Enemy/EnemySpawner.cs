@@ -77,6 +77,11 @@ public class EnemySpawner : MonoBehaviour
         enemy.transform.position = point.position;
         enemy.transform.rotation = point.rotation;
         enemy.SetActive(true);
+
+        if (enemy.TryGetComponent(out EnemyBase enemyScript))
+        {
+            enemyScript.Setup();
+        }
     }
 
     private GameObject GetInactive()
