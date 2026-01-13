@@ -12,6 +12,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.3f;    //감지용 반지름
     [SerializeField] private LayerMask groundLayer;             //레이어 설정
 
+    [Header("Animation (Direct Assignment)")]
+    [SerializeField] private Animator animator;
+
     private bool isGrounded;
     private bool jumpRequested;
     public Rigidbody rb;
@@ -30,6 +33,14 @@ public class PlayerControl : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+
+        if (animator != null)
+        {
+            float moveSpeedForAnim = new Vector2(horizontal, vertical).magnitude;
+            animator.SetFloat("Speed", moveSpeedForAnim); //
+            animator.SetBool("IsGround", isGrounded); //
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Debug.Log($"[Update] Space pressed | isGrounded = {isGrounded}");
@@ -44,6 +55,11 @@ public class PlayerControl : MonoBehaviour
         if (jumpRequested && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Jump");
+            }
             jumpRequested = false;
         }
     }

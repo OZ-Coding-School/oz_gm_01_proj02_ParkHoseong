@@ -42,6 +42,15 @@ public class PlayerShooter : MonoBehaviour
     [Header("Bullet Pool")]
     [SerializeField] private BulletManager bulletManager;
 
+    [Header("Animation (Direct Assignment)")]
+    [SerializeField] private Animator animator;
+
+    [Header("현재 장착된 무기")]
+    [SerializeField] private WeaponData currentWeapon;
+
+    private Vector3 currentRotation;
+    private Vector3 targetRotation;
+
     public bool isInventoryOpen = false;
 
     private float pitch;
@@ -84,11 +93,17 @@ public class PlayerShooter : MonoBehaviour
     // 마우스 회전
     void HandleLook()
     {
+        if (currentWeapon != null)
+        {
+            targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, currentWeapon.returnSpeed * Time.deltaTime);
+            currentRotation = Vector3.Slerp(currentRotation, targetRotation, currentWeapon.snappiness * Time.fixedDeltaTime);
+        }
+
         float mx = Input.GetAxis("Mouse X") * mouseSensitivity;
         float my = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        if (yawRoot) yawRoot.Rotate(Vector3.up, mx, Space.World);
-        pitch = Mathf.Clamp(pitch - my, -85f, 85f);
+        if (yawRoot) yawRoot.Rotate(Vector3.up, mx + (currentRotation.y*0.1f), Space.World);
+        pitch = Mathf.Clamp(pitch - my - (currentRotation.x*0.1f), -85f, 85f);
         if (pitchRoot) pitchRoot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
@@ -139,6 +154,7 @@ public class PlayerShooter : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             isZooming = true;
+            if (animator != null) animator.SetBool("IsAiming", true);
             mouseSensitivity = originalSensitivity * zoomSensitivityMultiplier;
 
             // 줌 시 스코프 오버레이만 표시
@@ -149,7 +165,7 @@ public class PlayerShooter : MonoBehaviour
         {
             isZooming = false;
             mouseSensitivity = originalSensitivity;
-
+            if (animator != null) animator.SetBool("IsAiming", false);
             // 줌 해제 시 오버레이 비활성화
             if (scopeOverlay != null) scopeOverlay.enabled = false;
         }
@@ -176,6 +192,13 @@ public class PlayerShooter : MonoBehaviour
         {
             Debug.Log("탄약 부족! 재장전 필요");
             return;
+        }
+
+        if (animator != null) animator.SetTrigger("Attack");
+
+        if (currentWeapon != null)
+        {
+            targetRotation += new Vector3(-currentWeapon.recoilX, Random.Range(-currentWeapon.recoilY, currentWeapon.recoilY), 0);
         }
 
         Vector3 dir = cam.transform.forward;
@@ -208,6 +231,8 @@ public class PlayerShooter : MonoBehaviour
     {
         if (totalClips > 0 && currentAmmo < maxAmmo)
         {
+            if (animator != null) animator.SetTrigger("Reload");
+
             totalClips--;
             currentAmmo = maxAmmo;
             scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
