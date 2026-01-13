@@ -824,6 +824,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2907516477788466071, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6203131832332546773, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
         type: 3}
       propertyPath: scoreManager
@@ -1028,7 +1033,7 @@ PrefabInstance:
     - target: {fileID: 6036752829269192267, guid: f248c9c0d29b2b141adf73abea1d20d8,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7443127630413661860, guid: f248c9c0d29b2b141adf73abea1d20d8,
         type: 3}
@@ -1233,6 +1238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167934017250071717, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3955380855585237881, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
