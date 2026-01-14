@@ -11,7 +11,6 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private float bulletSpeed = 40f;
     [SerializeField] private Transform yawRoot;
     [SerializeField] private Transform pitchRoot;
-    [SerializeField] private Transform gunMuzzle;
     [SerializeField] private float mouseSensitivity = 2.0f;
 
     [Header("줌 설정")]
@@ -55,7 +54,7 @@ public class PlayerShooter : MonoBehaviour
     private float fireRate;
     private int totalClips;
     private int currentAmmo;
-
+    private Transform gunMuzzle;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -266,19 +265,19 @@ public class PlayerShooter : MonoBehaviour
         Debug.Log($"예비 탄창 추가! 현재 예비 탄창: {totalClips}");
     }
 
-    public void SetWeapon(WeaponData newData)
+    public void SetWeapon(WeaponData newData, Transform newMuzzle)
     {
-        if (newData == null) return;
+        if (newData == null || newMuzzle == null) return;
 
         // 현재 무기 데이터 교체
         this.currentWeapon = newData;
+        this.gunMuzzle = newMuzzle;
 
         // 무기별 성능 재설정
         this.fireRate = newData.fireRate;
         this.currentAmmo = newData.maxAmmo;
         this.totalClips = newData.maxMag;
 
-        // UI 즉시 갱신 (오늘 해결한 로직 재활용)
         scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
     }
 }

@@ -1167,7 +1167,6 @@ MonoBehaviour:
   bulletSpeed: 40
   yawRoot: {fileID: 7052588001238025703}
   pitchRoot: {fileID: 6465422782210023168}
-  gunMuzzle: {fileID: 526693155038834586}
   mouseSensitivity: 2
   zoomFOV: 20
   normalFOV: 60
@@ -1275,11 +1274,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028e77998f3aa3b43bfd24af66c39dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs:
-  - {fileID: 173001167088813942}
   weaponHolder: {fileID: 4580577846953345700}
-  playerFirePoint: {fileID: 0}
-  playerShooter: {fileID: 0}
+  playerShooter: {fileID: 6203131832332546773}
 --- !u!1 &3176001854905946660
 GameObject:
   m_ObjectHideFlags: 0
@@ -3032,24 +3028,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1f8e7c56d86508468115f2a72c07442, type: 3}
---- !u!114 &173001167088813942 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3153296416005029805, guid: f1f8e7c56d86508468115f2a72c07442,
-    type: 3}
-  m_PrefabInstance: {fileID: 3000626362046445787}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0ad3602d13e4546a5c84c6c68d2698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &526693155038834586 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3380916227823851329, guid: f1f8e7c56d86508468115f2a72c07442,
-    type: 3}
-  m_PrefabInstance: {fileID: 3000626362046445787}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1440284792602488570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204311069570930209, guid: f1f8e7c56d86508468115f2a72c07442,

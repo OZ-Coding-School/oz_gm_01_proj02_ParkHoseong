@@ -4,45 +4,39 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    [Header("보유 무기 목록 (프리팹)")]
-    public List<WeaponBase> weaponPrefabs = new List<WeaponBase>();
-
     [Header("필수 참조")]
-    public Transform weaponHolder;     // 무기 모델이 배치될 부모 (WeaponRoot)
-    public Transform playerFirePoint;  // 총구 발사 위치 (Muzzle)
-    public PlayerShooter playerShooter; // 사격 로직 스크립트 참조
+    public Transform weaponHolder; 
+    public PlayerShooter playerShooter;
 
     private List<WeaponBase> weaponInstances = new List<WeaponBase>();
     private int currentIndex = 0;
-    public WeaponBase CurrentWeapon { get; private set; }
 
     private void Start()
     {
-        // 1. 기존 인스턴스 생성 로직 유지
-        foreach (WeaponBase prefab in weaponPrefabs)
+        // 1. 생성 대신, Holder의 자식들 중 WeaponBase가 붙은 것들을 리스트에 담음
+        foreach (Transform child in weaponHolder)
         {
-            if (prefab == null) continue;
-            WeaponBase w = Instantiate(prefab, weaponHolder);
-            w.firePoint = playerFirePoint;
-            w.gameObject.SetActive(false);
-            weaponInstances.Add(w);
+            WeaponBase w = child.GetComponent<WeaponBase>();
+            if (w != null)
+            {
+                weaponInstances.Add(w);
+                child.gameObject.SetActive(false); // 초기화 시 모두 비활성화
+            }
         }
 
-        // 2. 첫 번째 무기 활성화 및 PlayerShooter 데이터 동기화
+        // 2. 첫 번째 무기 활성화 및 Shooter 연동
         if (weaponInstances.Count > 0)
         {
-            currentIndex = 0;
-            ActivateWeapon(currentIndex);
+            ActivateWeapon(0);
         }
     }
 
     private void Update()
     {
-        // 입력 제한 확인 (기존 PlayerShooter 로직 준수)
         if (InputLockManager.Blocked) return;
 
         HandleScrollInput();
-        HandleAlphaNumericInput();
+        HandleNumericInput();
     }
 
     private void HandleScrollInput()
@@ -57,7 +51,7 @@ public class WeaponManager : MonoBehaviour
         ActivateWeapon(nextIndex);
     }
 
-    private void HandleAlphaNumericInput()
+    private void HandleNumericInput()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) ActivateWeapon(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) ActivateWeapon(1);
@@ -67,32 +61,20 @@ public class WeaponManager : MonoBehaviour
     {
         if (index < 0 || index >= weaponInstances.Count) return;
 
-        // 현재 무기와 같더라도 데이터 동기화를 위해 체크 생략 가능하지만, 효율을 위해 인덱스 저장
-        WeaponBase targetWeapon = weaponInstances[index];
-        if (targetWeapon == null || targetWeapon.weaponData == null) return;
-
-        // 해금 여부 체크
-        if (!targetWeapon.weaponData.isUnlocked)
-        {
-            Debug.Log($"{targetWeapon.weaponData.weaponName}은(는) 잠겨 있습니다.");
-            return;
-        }
-
-        // 모든 무기 오브젝트 껐다 켜기
+        // 모든 무기 오브젝트 상태 제어
         for (int i = 0; i < weaponInstances.Count; i++)
         {
             weaponInstances[i].gameObject.SetActive(i == index);
         }
 
         currentIndex = index;
-        CurrentWeapon = weaponInstances[currentIndex];
+        WeaponBase current = weaponInstances[currentIndex];
 
-        // [핵심] PlayerShooter에 변경된 무기 데이터 전달 (리팩토링 포인트)
-        if (playerShooter != null)
+        Debug.Log($"<color=cyan>[WeaponManager]</color> 휠 조작 감지! 현재 인덱스: {index} | 무기명: {current.weaponData.weaponName}");
+
+        if (playerShooter != null && current.weaponData != null)
         {
-            playerShooter.SetWeapon(CurrentWeapon.weaponData);
+            playerShooter.SetWeapon(current.weaponData, current.firePoint);
         }
-
-        Debug.Log($"무기 교체 완료: {CurrentWeapon.weaponData.weaponName}");
     }
 }
