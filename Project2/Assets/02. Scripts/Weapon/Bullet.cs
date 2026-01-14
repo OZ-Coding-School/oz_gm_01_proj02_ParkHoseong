@@ -10,12 +10,12 @@ public class Bullet : MonoBehaviour
     public BulletOwner owner;
 
     [SerializeField] private float moveSpeed = 10.0f;
-    [SerializeField] private int baseDamage = 40;
-    private Rigidbody bulletRigid;
     [SerializeField] public ScoreManager scoreManager;
 
     [SerializeField] private float maxLife=3.0f;
     private float lifeTimer;
+    public int baseDamage = 40;
+    private Rigidbody bulletRigid;
 
     private void Awake()
     {

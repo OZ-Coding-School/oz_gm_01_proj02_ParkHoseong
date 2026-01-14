@@ -1169,7 +1169,6 @@ MonoBehaviour:
   pitchRoot: {fileID: 6465422782210023168}
   gunMuzzle: {fileID: 526693155038834586}
   mouseSensitivity: 2
-  fireRate: 0.1
   zoomFOV: 20
   normalFOV: 60
   zoomSpeed: 10
@@ -1180,14 +1179,11 @@ MonoBehaviour:
   alignSpeed: 10
   crosshair: {fileID: 0}
   scopeOverlay: {fileID: 0}
-  maxAmmo: 30
-  currentAmmo: 0
-  totalClips: 3
   scoreManager: {fileID: 0}
   bulletManager: {fileID: 4375186643377619125}
   animator: {fileID: 3376095348442335145}
   currentWeapon: {fileID: 11400000, guid: 8e12dfeede9903d498e91734dc56589b, type: 2}
-  isInventoryOpen: 1
+  isInventoryOpen: 0
 --- !u!114 &6580447210724908820
 MonoBehaviour:
   m_ObjectHideFlags: 0

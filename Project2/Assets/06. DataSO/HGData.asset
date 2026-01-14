@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26e000be855e9dc47b466eb6c8bb9b29, type: 3}
-  m_Name: AR
+  m_Name: HGData
   m_EditorClassIdentifier: 
-  weaponName: M4
+  weaponName: HG
   isUnlocked: 1
-  damage: 40
+  damage: 20
   fireRate: 0.1
   reloadTime: 1
   isSingleLoad: 0
-  maxAmmo: 30
-  maxMag: 3
-  recoilX: -0.1
-  recoilY: -0.1
+  maxAmmo: 12
+  maxMag: 5
+  recoilX: 2
+  recoilY: 0.5
   snappiness: 10
   returnSpeed: 5

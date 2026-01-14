@@ -14,27 +14,21 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private Transform gunMuzzle;
     [SerializeField] private float mouseSensitivity = 2.0f;
 
-    [Header("사격 / 줌 설정")]
-    [SerializeField] private float fireRate = 0.1f;     // 연사 간격
-    [SerializeField] private float zoomFOV = 20f;       // 스코프 배율 (3배 줌)
-    [SerializeField] private float normalFOV = 60f;     // 기본 시야
-    [SerializeField] private float zoomSpeed = 10f;     // 줌 전환 부드러움
-    [SerializeField] private float zoomSensitivityMultiplier = 0.5f; // 줌 중 감도 감소
+    [Header("줌 설정")]
+    [SerializeField] private float zoomFOV = 20f;       //스코프 배율 (3배 줌)
+    [SerializeField] private float normalFOV = 60f;     //기본 시야
+    [SerializeField] private float zoomSpeed = 10f;     //줌 전환 부드러움
+    [SerializeField] private float zoomSensitivityMultiplier = 0.5f; //줌 중 감도 감소
 
     [Header("총기 정렬")]
-    [SerializeField] private Transform gunRoot;  // 총 루트
-    [SerializeField] private Vector3 normalPos = new Vector3(0.4f, -0.3f, 0.5f); // 평소 위치
-    [SerializeField] private Vector3 zoomPos = new Vector3(0f, -0.1f, 0.8f);    // 줌 시 중앙 위치
-    [SerializeField] private float alignSpeed = 10f; // 이동 속도
+    [SerializeField] private Transform gunRoot;  //총 루트
+    [SerializeField] private Vector3 normalPos = new Vector3(0.4f, -0.3f, 0.5f); //평소 위치
+    [SerializeField] private Vector3 zoomPos = new Vector3(0f, -0.1f, 0.8f);    //줌 시 중앙 위치
+    [SerializeField] private float alignSpeed = 10f; //이동 속도
 
     [Header("UI")]
-    [SerializeField] private Image crosshair;     // 조준점 이미지
-    [SerializeField] private Image scopeOverlay;  // 스코프 오버레이 이미지 (줌 시 표시)
-
-    [Header("탄약 세팅")]
-    [SerializeField] private int maxAmmo = 30;
-    [SerializeField] private int currentAmmo;
-    [SerializeField] private int totalClips = 3;
+    [SerializeField] private Image crosshair;     //조준점 이미지
+    [SerializeField] private Image scopeOverlay;  //스코프 오버레이 이미지 (줌 시 표시)
 
     [Header("게임 관리")]
     [SerializeField] public ScoreManager scoreManager;
@@ -58,13 +52,23 @@ public class PlayerShooter : MonoBehaviour
     private bool isZooming;
     private bool isAutoFire = true; // true: 연사 / false: 단발
     private float originalSensitivity;
+    private float fireRate;
+    private int totalClips;
+    private int currentAmmo;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        currentAmmo = maxAmmo;
+        if (currentWeapon != null)
+        {
+            // 핵심: SO에 적힌 값을 가져와서 게임용 변수에 할당합니다.
+            this.fireRate = currentWeapon.fireRate;
+            this.currentAmmo = currentWeapon.maxAmmo;
+            this.totalClips = currentWeapon.maxMag;
+        }
+
         originalSensitivity = mouseSensitivity;
 
         if (cam != null)
@@ -219,24 +223,30 @@ public class PlayerShooter : MonoBehaviour
         if (go.TryGetComponent(out Bullet b))
         {
             b.scoreManager = scoreManager;
+            b.baseDamage = (int)currentWeapon.damage;
             b.Shot(dir, bulletSpeed);
+        }
+
+        if (currentWeapon != null && currentWeapon.fireSound != null)
+        {
+            SoundManager.Instance.PlaySfx(currentWeapon.fireSound);
         }
 
         currentAmmo--;
         scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
-        Debug.Log($"발사! 남은 탄약: {currentAmmo}/{maxAmmo}, 예비 탄창: {totalClips}");
+        Debug.Log($"발사! 남은 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
     }
 
     void Reload()
     {
-        if (totalClips > 0 && currentAmmo < maxAmmo)
+        if (totalClips > 0 && currentAmmo < currentWeapon.maxAmmo)
         {
             if (animator != null) animator.SetTrigger("Reload");
 
             totalClips--;
-            currentAmmo = maxAmmo;
+            currentAmmo = currentWeapon.maxAmmo;
             scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
-            Debug.Log($"재장전 완료! 현재 탄약: {currentAmmo}/{maxAmmo}, 예비 탄창: {totalClips}");
+            Debug.Log($"재장전 완료! 현재 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
         }
         else
         {
