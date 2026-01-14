@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PasueManager : MonoBehaviour
+public class PauseManager : MonoBehaviour
 {
     [Header("UI Panels")]
     [SerializeField] private GameObject menuPanel; // 인스펙터에서 MenuPanel 할당
+
+    [Header("Settings")]
+    [SerializeField] private bool isFPSScene = true;
 
     private bool isPaused = false;
 
@@ -41,19 +44,31 @@ public class PasueManager : MonoBehaviour
     public void Resume()
     {
         isPaused = false;
-        if (menuPanel != null) menuPanel.SetActive(false);
 
-        Time.timeScale = 1f; // 게임 재개
+        if (menuPanel != null) menuPanel.SetActive(false); //
 
-        // 에러 해결: SetLock 대신 Release 사용
+        Time.timeScale = 1f;
+
         InputLockManager.Release("PauseMenu");
+
+        if (isFPSScene)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            // 스테이지 선택 씬 등에서는 마우스를 계속 보여줍니다.
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     public void GoToMain()
     {
         Time.timeScale = 1f;
-        // 해제해주지 않고 씬을 넘기면 다음 씬에서도 입력이 막힐 수 있음
-        InputLockManager.Release("PauseMenu");
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("MainScene");
     }
 }

@@ -67,6 +67,11 @@ public class PlayerShooter : MonoBehaviour
             this.fireRate = currentWeapon.fireRate;
             this.currentAmmo = currentWeapon.maxAmmo;
             this.totalClips = currentWeapon.maxMag;
+
+            if (scoreManager != null)
+            {
+                scoreManager.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
+            }
         }
 
         originalSensitivity = mouseSensitivity;
@@ -233,7 +238,7 @@ public class PlayerShooter : MonoBehaviour
         }
 
         currentAmmo--;
-        scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
+        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
         Debug.Log($"발사! 남은 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
     }
 
@@ -245,7 +250,7 @@ public class PlayerShooter : MonoBehaviour
 
             totalClips--;
             currentAmmo = currentWeapon.maxAmmo;
-            scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
+            scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
             Debug.Log($"재장전 완료! 현재 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
         }
         else
@@ -257,7 +262,23 @@ public class PlayerShooter : MonoBehaviour
     public void AddAmmo(int clips)
     {
         totalClips += clips;
-        scoreManager?.ConsumeAmmo(currentAmmo, totalClips);
+        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
         Debug.Log($"예비 탄창 추가! 현재 예비 탄창: {totalClips}");
+    }
+
+    public void SetWeapon(WeaponData newData)
+    {
+        if (newData == null) return;
+
+        // 현재 무기 데이터 교체
+        this.currentWeapon = newData;
+
+        // 무기별 성능 재설정
+        this.fireRate = newData.fireRate;
+        this.currentAmmo = newData.maxAmmo;
+        this.totalClips = newData.maxMag;
+
+        // UI 즉시 갱신 (오늘 해결한 로직 재활용)
+        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
     }
 }

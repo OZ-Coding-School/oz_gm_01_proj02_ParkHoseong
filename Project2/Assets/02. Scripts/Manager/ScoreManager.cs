@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,22 +6,31 @@ using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("≈∫æ‡ ºº∆√")]
-    [SerializeField] private int maxAmmo = 30;
+    [Header("Î™®Îìú ÏÑ§Ï†ï")]
+    [SerializeField] private bool isInfiniteMode = false;
+    [SerializeField] private GameObject scorePanel;
+
+    [Header("UIÏ∞∏Ï°∞")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
     [SerializeField] private TextMeshProUGUI ammoText;
-    [SerializeField] private TextMeshProUGUI clipsText; // øπ∫Ò ≈∫√¢ ≈ÿΩ∫∆Æ
+    [SerializeField] private TextMeshProUGUI clipsText; //ÏòàÎπÑ ÌÉÑÏ∞Ω ÌÖçÏä§Ìä∏
     [SerializeField] private TextMeshProUGUI restartText;
 
-    public int Score { get; private set; }
-
-    // ¿Ã¡¶ AmmoøÕ Clips¥¬ PlayerShooterø°º≠ ∞°¡Æø»
-    [HideInInspector] public int CurrentAmmo;
-    [HideInInspector] public int TotalClips;
+    // Ïù¥Ï†ú AmmoÏôÄ ClipsÎäî PlayerShooterÏóêÏÑú Í∞ÄÏ†∏Ïò¥
+    public int CurrentAmmo;
+    public int TotalClips;
+    private int MaxAmmo;
 
     void Awake()
     {
         ResetSession();
+
+        if (scorePanel != null)
+        {
+            scorePanel.SetActive(isInfiniteMode);
+        }
+
         UpdateUI();
     }
 
@@ -35,29 +44,37 @@ public class ScoreManager : MonoBehaviour
 
     public void ResetSession()
     {
-        Score = 0;
-        CurrentAmmo = maxAmmo;
-        TotalClips = 3; // ±‚∫ª øπ∫Ò ≈∫√¢ ∞≥ºˆ
+        DataManager.ResetCurrentScore();
+        CurrentAmmo = 0;
+        TotalClips = 0;
+        MaxAmmo = 0;
     }
 
-    // PlayerShooterø°º≠ √—æÀ º“∫Ò Ω√ »£√‚
-    public void ConsumeAmmo(int currentAmmo, int totalClips)
+    // PlayerShooterÏóêÏÑú Ï¥ùÏïå ÏÜåÎπÑ Ïãú Ìò∏Ï∂ú
+    public void ConsumeAmmo(int currentAmmo, int totalClips, WeaponData data)
     {
-        CurrentAmmo = currentAmmo;
-        TotalClips = totalClips;
+        this.CurrentAmmo = currentAmmo;
+        this.TotalClips = totalClips;
+        if (data != null) this.MaxAmmo = data.maxAmmo;
         UpdateUI();
     }
 
     public void AddScore(int amount)
     {
-        Score += amount;
+        DataManager.AddScore(amount);
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        if (scoreText) scoreText.text = "Score: " + Score;
-        if (ammoText) ammoText.text = $"Ammo: {CurrentAmmo}/{maxAmmo}";
+        if (scoreText) scoreText.text = "Score: " + DataManager.TotalScore;
+        if (bestScoreText) bestScoreText.text = "Best: " + DataManager.GetBestScore();
+        if (ammoText) ammoText.text = $"Ammo: {CurrentAmmo}/{MaxAmmo}";
         if (clipsText) clipsText.text = $"Clips: {TotalClips}";
+    }
+    public void ShowFinalScore()
+    {
+        if (scorePanel != null) scorePanel.SetActive(true);
+        UpdateUI();
     }
 }

@@ -16,6 +16,8 @@ public class SoundManager : MonoBehaviour
     [Range(0, 1)] public float sfxVolume = 0.5f;
     private AudioSource[] sfxPlayers;
     private int channelIndex;
+    public float GetSfxVolume() => sfxVolume;
+    public float GetBgmVolume() => bgmVolume;
 
     private void Awake()
     {
@@ -80,6 +82,14 @@ public class SoundManager : MonoBehaviour
         channelIndex = (channelIndex + 1) % sfxPlayers.Length;
         sfxPlayers[channelIndex].clip = clip;
         sfxPlayers[channelIndex].Play();
+    }
+    public void SetBgmVolume(float volume)
+    {
+        bgmVolume = volume;
+        if (bgmPlayer != null)
+        {
+            bgmPlayer.volume = bgmVolume;
+        }
     }
 
     public void SetSfxVolume(float volume)

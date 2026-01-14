@@ -32,6 +32,9 @@ public class StageSelectManager : MonoBehaviour
 
     public void LoadMain()
     {
+        Time.timeScale = 1f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("MainScene");
     }
 }

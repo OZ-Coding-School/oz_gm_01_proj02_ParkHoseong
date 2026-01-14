@@ -60,7 +60,7 @@ public class Bullet : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(baseDamage);
-                scoreManager?.AddScore(100);
+                scoreManager?.AddScore(20);
             }
             ReturnPool();
         }

@@ -14,6 +14,9 @@ public class DataManager : MonoBehaviour
     // 스테이지별 클리어 여부를 인덱스로 관리 (예: 0=Tutorial, 1=Stage01...)
     public bool[] stageCleared = new bool[5];
 
+    public static int TotalScore = 0;
+    private const string BestScoreKey = "BestScore";
+
     private void Awake()
     {
         if (Instance == null)
@@ -88,5 +91,30 @@ public class DataManager : MonoBehaviour
         }
 
         Debug.Log("[DataManager] 데이터 로드 완료");
+    }
+
+    public static void AddScore(int amount)
+    {
+        TotalScore += amount;
+
+        // 실시간으로 최고 기록 갱신 여부 확인
+        int currentBest = GetBestScore();
+        if (TotalScore > currentBest)
+        {
+            PlayerPrefs.SetInt(BestScoreKey, TotalScore);
+            PlayerPrefs.Save();
+        }
+    }
+
+    // 최고 기록 가져오기
+    public static int GetBestScore()
+    {
+        return PlayerPrefs.GetInt(BestScoreKey, 0);
+    }
+
+    // 새로운 게임/스테이지 시작 시 현재 점수만 리셋
+    public static void ResetCurrentScore()
+    {
+        TotalScore = 0;
     }
 }
