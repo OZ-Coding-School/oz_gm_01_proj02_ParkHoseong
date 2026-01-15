@@ -283,6 +283,11 @@ public class PlayerShooter : MonoBehaviour
         this.currentAmmo = newWeapon.currentAmmo;
         this.totalClips = newWeapon.currentTotalClips;
 
+        if (!currentWeapon.isAuto)
+        {
+            this.isAutoFire = false;
+        }
+
         scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
     }
 }

@@ -14,13 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: HG
   isUnlocked: 1
+  isAuto: 0
   damage: 20
-  fireRate: 0.1
+  fireRate: 1
   reloadTime: 1
   isSingleLoad: 0
   maxAmmo: 12
   maxMag: 5
-  recoilX: 2
-  recoilY: 0.5
+  recoilX: -2
+  recoilY: -0.5
   snappiness: 10
   returnSpeed: 5
+  fireSound: {fileID: 0}
+  reloadSound: {fileID: 0}

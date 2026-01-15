@@ -8,6 +8,7 @@ public class WeaponData : ScriptableObject
     [Header("무기 정보")]
     public string weaponName = "M4";       // DataManager에서 식별자로 사용
     public bool isUnlocked = true;
+    public bool isAuto = true;
 
     [Header("전투 설정")]
     public float damage = 10.0f;
