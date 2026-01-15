@@ -55,6 +55,7 @@ public class PlayerShooter : MonoBehaviour
     private int totalClips;
     private int currentAmmo;
     private Transform gunMuzzle;
+    private WeaponBase activeWeaponObject;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -265,18 +266,22 @@ public class PlayerShooter : MonoBehaviour
         Debug.Log($"예비 탄창 추가! 현재 예비 탄창: {totalClips}");
     }
 
-    public void SetWeapon(WeaponData newData, Transform newMuzzle)
+    public void SetWeapon(WeaponBase newWeapon)
     {
-        if (newData == null || newMuzzle == null) return;
+        if (newWeapon == null) return;
 
-        // 현재 무기 데이터 교체
-        this.currentWeapon = newData;
-        this.gunMuzzle = newMuzzle;
+        if (activeWeaponObject != null)
+        {
+            activeWeaponObject.currentAmmo = this.currentAmmo;
+            activeWeaponObject.currentTotalClips = this.totalClips;
+        }
 
-        // 무기별 성능 재설정
-        this.fireRate = newData.fireRate;
-        this.currentAmmo = newData.maxAmmo;
-        this.totalClips = newData.maxMag;
+        activeWeaponObject = newWeapon;
+        this.currentWeapon = newWeapon.weaponData;
+        this.gunMuzzle = newWeapon.firePoint;
+        this.fireRate = currentWeapon.fireRate;
+        this.currentAmmo = newWeapon.currentAmmo;
+        this.totalClips = newWeapon.currentTotalClips;
 
         scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
     }

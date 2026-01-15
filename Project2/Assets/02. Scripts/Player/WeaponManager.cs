@@ -74,7 +74,7 @@ public class WeaponManager : MonoBehaviour
 
         if (playerShooter != null && current.weaponData != null)
         {
-            playerShooter.SetWeapon(current.weaponData, current.firePoint);
+            playerShooter.SetWeapon(current);
         }
     }
 }
