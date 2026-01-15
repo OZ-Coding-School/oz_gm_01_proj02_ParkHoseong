@@ -119,7 +119,7 @@ public class PlayerShooter : MonoBehaviour
     // 발사 처리 (연사/단발)
     void HandleFire()
     {
-        if (isAutoFire)
+        if (currentWeapon.isAuto && isAutoFire)
         {
             // 연사 모드: 좌클릭 유지
             if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
@@ -131,8 +131,9 @@ public class PlayerShooter : MonoBehaviour
         else
         {
             // 단발 모드: 좌클릭 눌렀을 때만
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
             {
+                nextFireTime = Time.time + fireRate;
                 Shoot();
             }
         }
@@ -148,7 +149,7 @@ public class PlayerShooter : MonoBehaviour
     // 연사/단발 전환 (B키)
     void HandleFireModeSwitch()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (currentWeapon != null && currentWeapon.isAuto && Input.GetKeyDown(KeyCode.B))
         {
             isAutoFire = !isAutoFire;
             string mode = isAutoFire ? "연사" : "단발";

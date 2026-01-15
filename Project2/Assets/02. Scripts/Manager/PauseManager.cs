@@ -66,6 +66,11 @@ public class PauseManager : MonoBehaviour
 
     public void GoToMain()
     {
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.Save();
+        }
+
         Time.timeScale = 1f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
