@@ -115,11 +115,18 @@ public class EnemyBase : MonoBehaviour
 
         lastAttackTime = Time.time;
 
+        if (anim != null) anim.SetTrigger("Attack");
+
         PlayerHealth playerHealth = enemyManager.GetPlayerTransform().GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(data.meleeDamage);
-            Debug.Log($"{data.enemyName} 근접 공격 성공!");
+            Debug.Log($"{data.enemyName} 근접(자폭) 공격 성공!");
+        }
+        if (data.enemyName.Contains("Bomb"))
+        {
+            // 자폭 애니메이션이 보일 시간을 잠깐 준 뒤 Die 호출
+            StartCoroutine(SuicideSequence());
         }
     }
 
@@ -212,6 +219,13 @@ public class EnemyBase : MonoBehaviour
             anim.Update(0f);
         }
         if (TryGetComponent(out Collider col)) col.enabled = true;
+    }
+
+    private IEnumerator SuicideSequence()
+    {
+        //자폭 연출을 위한 짧은 대기(0.5초)
+        yield return new WaitForSeconds(0.5f);
+        Die();
     }
 
     // 시야 디버그 표시

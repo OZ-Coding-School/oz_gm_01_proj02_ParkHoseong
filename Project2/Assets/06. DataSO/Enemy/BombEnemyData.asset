@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 892be8bb411a8384892eb9acee84f89e, type: 3}
-  m_Name: EnemyData
+  m_Name: BombEnemyData
   m_EditorClassIdentifier: 
-  enemyName: Default Enemy
-  prefab: {fileID: 2758932918608426455, guid: 95c4c82ae0155264785d917855b557b0, type: 3}
+  enemyName: BombEnemy
+  prefab: {fileID: 0}
   baseHp: 100
   baseMoveSpeed: 3.5
-  findRange: 15
-  attackRange: 10
-  meleeDamage: 0
+  findRange: 20
+  attackRange: 1
+  meleeDamage: 100
   fieldOfView: 60
   obstacleMask:
     serializedVersion: 2
@@ -27,5 +27,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerTag: Player
-  isRanged: 1
-  isMelee: 0
+  isRanged: 0
+  isMelee: 1

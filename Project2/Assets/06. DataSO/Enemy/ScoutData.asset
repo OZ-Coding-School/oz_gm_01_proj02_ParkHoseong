@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 892be8bb411a8384892eb9acee84f89e, type: 3}
-  m_Name: MeleeEnemyData
+  m_Name: ScoutData
   m_EditorClassIdentifier: 
-  enemyName: MeleeEnemy
-  prefab: {fileID: 2758932918608426455, guid: 95c4c82ae0155264785d917855b557b0, type: 3}
-  baseHp: 100
-  baseMoveSpeed: 3.5
-  findRange: 15
-  attackRange: 0
+  enemyName: ScoutEnemy
+  prefab: {fileID: 0}
+  baseHp: 80
+  baseMoveSpeed: 5
+  findRange: 30
+  attackRange: 10
   meleeDamage: 5
-  fieldOfView: 60
+  fieldOfView: 120
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
@@ -27,5 +27,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerTag: Player
-  isRanged: 0
-  isMelee: 1
+  isRanged: 1
+  isMelee: 0
