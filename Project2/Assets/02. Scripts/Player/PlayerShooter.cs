@@ -233,14 +233,14 @@ public class PlayerShooter : MonoBehaviour
             b.Shot(dir, bulletSpeed);
         }
 
+        currentAmmo--;
+        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
+        Debug.Log($"발사! 남은 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
+
         if (currentWeapon != null && currentWeapon.fireSound != null)
         {
             SoundManager.Instance.PlaySfx(currentWeapon.fireSound);
         }
-
-        currentAmmo--;
-        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
-        Debug.Log($"발사! 남은 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
     }
 
     void Reload()
