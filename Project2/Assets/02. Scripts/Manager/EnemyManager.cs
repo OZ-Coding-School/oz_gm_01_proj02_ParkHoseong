@@ -60,6 +60,10 @@ public class EnemyManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2.0f); //연출을 위한 대기
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         SceneManager.LoadScene("StageSelectScene");
     }
 
