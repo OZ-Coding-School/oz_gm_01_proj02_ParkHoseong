@@ -25,5 +25,5 @@ MonoBehaviour:
   recoilY: -0.5
   snappiness: 10
   returnSpeed: 5
-  fireSound: {fileID: 0}
-  reloadSound: {fileID: 0}
+  fireSound: {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
+  reloadSound: {fileID: 8300000, guid: 125edb9e36f963249bc792cca38492b1, type: 3}

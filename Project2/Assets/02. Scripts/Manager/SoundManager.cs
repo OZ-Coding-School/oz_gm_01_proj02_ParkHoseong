@@ -58,6 +58,14 @@ public class SoundManager : MonoBehaviour
             sfxPlayers[i].bypassListenerEffects = true;
             sfxPlayers[i].volume = sfxVolume;
         }
+        if (bgmPlayer != null && defaultBgm != null)
+        {
+            bgmPlayer.clip = defaultBgm;
+            bgmPlayer.loop = true;
+            bgmPlayer.playOnAwake = true;
+            bgmPlayer.Play();
+            Debug.Log($"BGM 재생 시작: {defaultBgm.name}");
+        }
     }
 
     // WeaponData의 AudioClip을 직접 재생하는 핵심 함수

@@ -125,7 +125,6 @@ public class EnemyBase : MonoBehaviour
         }
         if (data.enemyName.Contains("Bomb"))
         {
-            // 자폭 애니메이션이 보일 시간을 잠깐 준 뒤 Die 호출
             StartCoroutine(SuicideSequence());
         }
     }

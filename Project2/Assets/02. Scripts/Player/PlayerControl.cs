@@ -66,7 +66,14 @@ public class PlayerControl : MonoBehaviour
     void PlayerMove()
     {
         Vector3 currentVel = rb.velocity;
-        Vector3 newVel = new Vector3(horizontal * movespeed, currentVel.y, vertical * movespeed);
+        Vector3 moveDir = (transform.forward * vertical) + (transform.right * horizontal);
+        if (moveDir.magnitude > 1.0f)
+        {
+            moveDir.Normalize();
+        }
+
+        Vector3 newVel = new Vector3(moveDir.x * movespeed, currentVel.y, moveDir.z * movespeed);
+
         rb.velocity = Vector3.Lerp(rb.velocity, newVel, Time.deltaTime * 10.0f);
     }
     private void OnDrawGizmosSelected()
