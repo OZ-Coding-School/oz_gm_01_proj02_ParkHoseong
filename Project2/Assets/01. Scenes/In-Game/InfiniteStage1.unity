@@ -54717,13 +54717,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1833089901}
+    - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
       propertyPath: isInfiniteStage
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
       propertyPath: currentStageIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -66699,6 +66704,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71ae414ffc07d1d47a2ad79bfb9657b2, type: 3}
+--- !u!4 &1833089901 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7052588001238025703, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1833089900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1836917211
 PrefabInstance:
   m_ObjectHideFlags: 0
