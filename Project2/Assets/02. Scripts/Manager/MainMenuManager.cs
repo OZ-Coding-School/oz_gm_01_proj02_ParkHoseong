@@ -26,7 +26,13 @@ public class MainMenuManager : MonoBehaviour
     }
     public void StartNewGame()
     {
-        PlayerPrefs.DeleteKey("LastClearedStage");
+        PlayerPrefs.DeleteAll();
+
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.Load();
+        }
+
         SceneManager.LoadScene("StageSelectScene");
     }
 

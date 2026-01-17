@@ -65,9 +65,15 @@ public class DataManager : MonoBehaviour
         }
 
         // 2. 스테이지 클리어 정보 저장
+        int lastIndex = -1;
         for (int i = 0; i < stageCleared.Length; i++)
         {
             PlayerPrefs.SetInt($"Stage_{i}_Cleared", stageCleared[i] ? 1 : 0);
+            if (stageCleared[i]) lastIndex = i;
+        }
+        if (lastIndex != -1)
+        {
+            PlayerPrefs.SetInt("LastClearedStage", lastIndex);
         }
 
         PlayerPrefs.Save();
