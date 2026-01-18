@@ -224,7 +224,7 @@ public class EnemyBase : MonoBehaviour
     {
         //자폭 연출을 위한 짧은 대기(0.5초)
         yield return new WaitForSeconds(0.5f);
-        Die();
+        TakeDamage(9999);
     }
 
     // 시야 디버그 표시

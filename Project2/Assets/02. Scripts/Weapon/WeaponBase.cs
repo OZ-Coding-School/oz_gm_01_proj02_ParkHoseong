@@ -10,6 +10,10 @@ public class WeaponBase : MonoBehaviour
     [Header("총구 위치")]
     public Transform firePoint;
 
+    [Header("무기별 UI 오버레이")]
+    public GameObject scopeOverlay;
+    public Sprite crosshairSprite;
+
     public int currentAmmo;
     public int currentTotalClips;
 

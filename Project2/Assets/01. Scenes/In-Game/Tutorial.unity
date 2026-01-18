@@ -482,6 +482,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 463134111772177739, guid: eec7e936ba258b44dab12f2fb8bd96c6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2701918822182233589, guid: eec7e936ba258b44dab12f2fb8bd96c6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2965608777471812495, guid: eec7e936ba258b44dab12f2fb8bd96c6,
         type: 3}
       propertyPath: m_Pivot.x
@@ -606,6 +616,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7511289582031378112, guid: eec7e936ba258b44dab12f2fb8bd96c6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8615579060794742768, guid: eec7e936ba258b44dab12f2fb8bd96c6,
         type: 3}

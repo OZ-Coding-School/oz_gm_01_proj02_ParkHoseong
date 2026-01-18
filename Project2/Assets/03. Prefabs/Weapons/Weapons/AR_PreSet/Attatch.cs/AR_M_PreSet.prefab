@@ -892,6 +892,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 8e12dfeede9903d498e91734dc56589b, type: 2}
   firePoint: {fileID: 3380916227823851329}
+  scopeOverlay: {fileID: 1401139786059656366}
+  crosshairSprite: {fileID: 0}
+  currentAmmo: 0
+  currentTotalClips: 0
 --- !u!1 &7866819580729059000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,6 +1204,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6bc254010fcb524d941e59fdbe3ec78, type: 3}
+--- !u!1 &1401139786059656366 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 310790254400176512, guid: e6bc254010fcb524d941e59fdbe3ec78,
+    type: 3}
+  m_PrefabInstance: {fileID: 1666893853328518446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1745718365381522964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1088735015335713594, guid: e6bc254010fcb524d941e59fdbe3ec78,

@@ -1162,13 +1162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 7208470583430798699}
-  bulletPrefab: {fileID: 5689286189246344068, guid: 85730807e111f334688595e17a7680af,
-    type: 3}
-  bulletSpeed: 40
   yawRoot: {fileID: 7052588001238025703}
   pitchRoot: {fileID: 6465422782210023168}
   mouseSensitivity: 2
-  zoomFOV: 20
   normalFOV: 60
   zoomSpeed: 10
   zoomSensitivityMultiplier: 0.5
@@ -1177,11 +1173,9 @@ MonoBehaviour:
   zoomPos: {x: 0, y: 0.23, z: 0}
   alignSpeed: 10
   crosshair: {fileID: 0}
-  scopeOverlay: {fileID: 0}
   scoreManager: {fileID: 0}
   bulletManager: {fileID: 4375186643377619125}
   animator: {fileID: 3376095348442335145}
-  currentWeapon: {fileID: 11400000, guid: 8e12dfeede9903d498e91734dc56589b, type: 2}
   isInventoryOpen: 0
 --- !u!114 &6580447210724908820
 MonoBehaviour:
@@ -2958,6 +2952,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pistol_F
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789703485367661094, guid: 9c5ac491f264de345bd534069d892997,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6562580326896265372, guid: 9c5ac491f264de345bd534069d892997,
         type: 3}

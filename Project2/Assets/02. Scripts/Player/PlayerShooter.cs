@@ -1,20 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerShooter : MonoBehaviour
 {
     [Header("총알 세팅")]
     [SerializeField] private Camera cam;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float bulletSpeed = 40f;
     [SerializeField] private Transform yawRoot;
     [SerializeField] private Transform pitchRoot;
     [SerializeField] private float mouseSensitivity = 2.0f;
 
     [Header("줌 설정")]
-    [SerializeField] private float zoomFOV = 20f;       //스코프 배율 (3배 줌)
     [SerializeField] private float normalFOV = 60f;     //기본 시야
     [SerializeField] private float zoomSpeed = 10f;     //줌 전환 부드러움
     [SerializeField] private float zoomSensitivityMultiplier = 0.5f; //줌 중 감도 감소
@@ -27,7 +22,6 @@ public class PlayerShooter : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image crosshair;     //조준점 이미지
-    [SerializeField] private Image scopeOverlay;  //스코프 오버레이 이미지 (줌 시 표시)
 
     [Header("게임 관리")]
     [SerializeField] public ScoreManager scoreManager;
@@ -38,9 +32,6 @@ public class PlayerShooter : MonoBehaviour
     [Header("Animation (Direct Assignment)")]
     [SerializeField] private Animator animator;
 
-    [Header("현재 장착된 무기")]
-    [SerializeField] private WeaponData currentWeapon;
-
     private Vector3 currentRotation;
     private Vector3 targetRotation;
 
@@ -49,29 +40,19 @@ public class PlayerShooter : MonoBehaviour
     private float pitch;
     private float nextFireTime;
     private bool isZooming;
-    private bool isAutoFire = true; // true: 연사 / false: 단발
+    private bool isAutoFire = true; //true: 연사 / false: 단발
     private float originalSensitivity;
-    private float fireRate;
-    private int totalClips;
-    private int currentAmmo;
-    private Transform gunMuzzle;
+
     private WeaponBase activeWeaponObject;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (currentWeapon != null)
+        if (activeWeaponObject != null && activeWeaponObject.weaponData != null)
         {
-            // 핵심: SO에 적힌 값을 가져와서 게임용 변수에 할당합니다.
-            this.fireRate = currentWeapon.fireRate;
-            this.currentAmmo = currentWeapon.maxAmmo;
-            this.totalClips = currentWeapon.maxMag;
-
-            if (scoreManager != null)
-            {
-                scoreManager.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
-            }
+            scoreManager?.ConsumeAmmo(activeWeaponObject.currentAmmo, activeWeaponObject.currentTotalClips, activeWeaponObject.weaponData);
         }
 
         originalSensitivity = mouseSensitivity;
@@ -81,9 +62,6 @@ public class PlayerShooter : MonoBehaviour
 
         if (crosshair != null)
             crosshair.enabled = false;
-
-        if (scopeOverlay != null)
-            scopeOverlay.enabled = false;
     }
 
     void Update()
@@ -91,22 +69,22 @@ public class PlayerShooter : MonoBehaviour
         if (InputLockManager.Blocked)
             return;
 
+        if (activeWeaponObject == null || activeWeaponObject.weaponData == null) 
+            return;
+
         HandleLook();
         HandleFire();
         HandleReload();
         HandleZoom();
         HandleFireModeSwitch();
-        HandleGunAlignment(); // 총기 정렬 처리
+        HandleGunAlignment(); //총기 정렬 처리
     }
 
     // 마우스 회전
     void HandleLook()
     {
-        if (currentWeapon != null)
-        {
-            targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, currentWeapon.returnSpeed * Time.deltaTime);
-            currentRotation = Vector3.Slerp(currentRotation, targetRotation, currentWeapon.snappiness * Time.fixedDeltaTime);
-        }
+        targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, activeWeaponObject.weaponData.returnSpeed * Time.deltaTime);
+        currentRotation = Vector3.Slerp(currentRotation, targetRotation, activeWeaponObject.weaponData.snappiness * Time.fixedDeltaTime);
 
         float mx = Input.GetAxis("Mouse X") * mouseSensitivity;
         float my = Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -119,12 +97,12 @@ public class PlayerShooter : MonoBehaviour
     // 발사 처리 (연사/단발)
     void HandleFire()
     {
-        if (currentWeapon.isAuto && isAutoFire)
+        if (activeWeaponObject.weaponData.isAuto && isAutoFire)
         {
             // 연사 모드: 좌클릭 유지
             if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
             {
-                nextFireTime = Time.time + fireRate;
+                nextFireTime = Time.time + activeWeaponObject.weaponData.fireRate;
                 Shoot();
             }
         }
@@ -133,7 +111,7 @@ public class PlayerShooter : MonoBehaviour
             // 단발 모드: 좌클릭 눌렀을 때만
             if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
             {
-                nextFireTime = Time.time + fireRate;
+                nextFireTime = Time.time + activeWeaponObject.weaponData.fireRate;
                 Shoot();
             }
         }
@@ -149,10 +127,10 @@ public class PlayerShooter : MonoBehaviour
     // 연사/단발 전환 (B키)
     void HandleFireModeSwitch()
     {
-        if (currentWeapon != null && currentWeapon.isAuto && Input.GetKeyDown(KeyCode.B))
+        if (activeWeaponObject.weaponData.isAuto && Input.GetKeyDown(KeyCode.B))
         {
             isAutoFire = !isAutoFire;
-            string mode = isAutoFire ? "연사" : "단발";
+            string mode = isAutoFire ? "연사" : "단발";     //UI에 표기할 예정임
             Debug.Log($"사격 모드 전환: {mode}");
         }
     }
@@ -166,9 +144,6 @@ public class PlayerShooter : MonoBehaviour
             isZooming = true;
             if (animator != null) animator.SetBool("IsAiming", true);
             mouseSensitivity = originalSensitivity * zoomSensitivityMultiplier;
-
-            // 줌 시 스코프 오버레이만 표시
-            if (scopeOverlay != null) scopeOverlay.enabled = true;
         }
 
         if (Input.GetMouseButtonUp(1))
@@ -176,12 +151,16 @@ public class PlayerShooter : MonoBehaviour
             isZooming = false;
             mouseSensitivity = originalSensitivity;
             if (animator != null) animator.SetBool("IsAiming", false);
-            // 줌 해제 시 오버레이 비활성화
-            if (scopeOverlay != null) scopeOverlay.enabled = false;
         }
 
-        float targetFOV = isZooming ? zoomFOV : normalFOV;
+        float targetFOV = isZooming ? (normalFOV / activeWeaponObject.weaponData.zoomMagnification) : normalFOV;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
+
+        if (crosshair != null)
+        {
+            bool shouldShow = !isZooming && activeWeaponObject.weaponData.useCrosshair;
+            crosshair.enabled = shouldShow;
+        }
     }
 
     // 줌 중 총기 위치 중앙 정렬
@@ -195,10 +174,10 @@ public class PlayerShooter : MonoBehaviour
 
     void Shoot()
     {
-        if (cam == null || gunMuzzle == null)
+        if (cam == null || activeWeaponObject.firePoint == null)
             return;
 
-        if (currentAmmo <= 0)
+        if (activeWeaponObject.currentAmmo <= 0)
         {
             Debug.Log("탄약 부족! 재장전 필요");
             return;
@@ -206,10 +185,8 @@ public class PlayerShooter : MonoBehaviour
 
         if (animator != null) animator.SetTrigger("Attack");
 
-        if (currentWeapon != null)
-        {
-            targetRotation += new Vector3(-currentWeapon.recoilX, Random.Range(-currentWeapon.recoilY, currentWeapon.recoilY), 0);
-        }
+        targetRotation += new Vector3(-activeWeaponObject.weaponData.recoilX,
+            Random.Range(-activeWeaponObject.weaponData.recoilY, activeWeaponObject.weaponData.recoilY), 0);
 
         Vector3 dir = cam.transform.forward;
         if (bulletManager == null)
@@ -222,37 +199,41 @@ public class PlayerShooter : MonoBehaviour
         if (go == null)
             return;
 
-        go.transform.position = gunMuzzle.position;
+        go.transform.position = activeWeaponObject.firePoint.position;
         go.transform.rotation = Quaternion.LookRotation(dir);
         go.SetActive(true);
 
         if (go.TryGetComponent(out Bullet b))
         {
             b.scoreManager = scoreManager;
-            b.baseDamage = (int)currentWeapon.damage;
-            b.Shot(dir, bulletSpeed);
+            b.baseDamage = (int)activeWeaponObject.weaponData.damage;
+            b.Shot(dir, activeWeaponObject.weaponData.bulletSpeed);
         }
 
-        currentAmmo--;
-        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
-        Debug.Log($"발사! 남은 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
+        activeWeaponObject.currentAmmo--;
+        scoreManager?.ConsumeAmmo(activeWeaponObject.currentAmmo, activeWeaponObject.currentTotalClips, activeWeaponObject.weaponData);
+        Debug.Log($"발사! 남은 탄약: {activeWeaponObject.currentAmmo}/{activeWeaponObject.weaponData.maxAmmo}, 예비 탄창: {activeWeaponObject.currentTotalClips}");
 
-        if (currentWeapon != null && currentWeapon.fireSound != null)
+        if (activeWeaponObject.weaponData.fireSound != null)
         {
-            SoundManager.Instance.PlaySfx(currentWeapon.fireSound);
+            SoundManager.Instance.PlaySfx(activeWeaponObject.weaponData.fireSound);
         }
     }
 
     void Reload()
     {
-        if (totalClips > 0 && currentAmmo < currentWeapon.maxAmmo)
+        if (activeWeaponObject.currentTotalClips > 0 && activeWeaponObject.currentAmmo < activeWeaponObject.weaponData.maxAmmo)
         {
             if (animator != null) animator.SetTrigger("Reload");
 
-            totalClips--;
-            currentAmmo = currentWeapon.maxAmmo;
-            scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
-            Debug.Log($"재장전 완료! 현재 탄약: {currentAmmo}/{currentWeapon.maxAmmo}, 예비 탄창: {totalClips}");
+            activeWeaponObject.currentTotalClips--;
+            activeWeaponObject.currentAmmo = activeWeaponObject.weaponData.maxAmmo;
+
+            scoreManager?.ConsumeAmmo(activeWeaponObject.currentAmmo, activeWeaponObject.currentTotalClips, activeWeaponObject.weaponData);
+
+            if (activeWeaponObject.weaponData.reloadSound != null)
+                SoundManager.Instance.PlaySfx(activeWeaponObject.weaponData.reloadSound);
+            Debug.Log($"재장전 완료! 현재 탄약: {activeWeaponObject.currentAmmo}/{activeWeaponObject.weaponData.maxAmmo}, 예비 탄창: {activeWeaponObject.currentTotalClips}");
         }
         else
         {
@@ -262,33 +243,27 @@ public class PlayerShooter : MonoBehaviour
 
     public void AddAmmo(int clips)
     {
-        totalClips += clips;
-        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
-        Debug.Log($"예비 탄창 추가! 현재 예비 탄창: {totalClips}");
+        activeWeaponObject.currentTotalClips += clips;
+        scoreManager?.ConsumeAmmo(activeWeaponObject.currentAmmo, activeWeaponObject.currentTotalClips, activeWeaponObject.weaponData);
+        Debug.Log($"예비 탄창 추가! 현재 예비 탄창: {activeWeaponObject.currentTotalClips}");
     }
 
     public void SetWeapon(WeaponBase newWeapon)
     {
         if (newWeapon == null) return;
 
-        if (activeWeaponObject != null)
-        {
-            activeWeaponObject.currentAmmo = this.currentAmmo;
-            activeWeaponObject.currentTotalClips = this.totalClips;
-        }
-
         activeWeaponObject = newWeapon;
-        this.currentWeapon = newWeapon.weaponData;
-        this.gunMuzzle = newWeapon.firePoint;
-        this.fireRate = currentWeapon.fireRate;
-        this.currentAmmo = newWeapon.currentAmmo;
-        this.totalClips = newWeapon.currentTotalClips;
 
-        if (!currentWeapon.isAuto)
+        isZooming = false;
+
+        if (!activeWeaponObject.weaponData.isAuto) isAutoFire = false;
+
+        if (crosshair != null)
         {
-            this.isAutoFire = false;
+            crosshair.sprite = activeWeaponObject.weaponData.crosshairSprite;
+            crosshair.enabled = activeWeaponObject.weaponData.useCrosshair;
         }
 
-        scoreManager?.ConsumeAmmo(currentAmmo, totalClips, currentWeapon);
+        scoreManager?.ConsumeAmmo(activeWeaponObject.currentAmmo, activeWeaponObject.currentTotalClips, activeWeaponObject.weaponData);
     }
 }
