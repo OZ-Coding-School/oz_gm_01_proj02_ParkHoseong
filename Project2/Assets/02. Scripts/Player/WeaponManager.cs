@@ -13,18 +13,16 @@ public class WeaponManager : MonoBehaviour
 
     private void Start()
     {
-        // 1. 생성 대신, Holder의 자식들 중 WeaponBase가 붙은 것들을 리스트에 담음
         foreach (Transform child in weaponHolder)
         {
             WeaponBase w = child.GetComponent<WeaponBase>();
             if (w != null)
             {
                 weaponInstances.Add(w);
-                child.gameObject.SetActive(false); // 초기화 시 모두 비활성화
+                child.gameObject.SetActive(false); //초기화 시 모두 비활성화
             }
         }
 
-        // 2. 첫 번째 무기 활성화 및 Shooter 연동
         if (weaponInstances.Count > 0)
         {
             ActivateWeapon(0);
