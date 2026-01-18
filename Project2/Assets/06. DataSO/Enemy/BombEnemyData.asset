@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: BombEnemyData
   m_EditorClassIdentifier: 
   enemyName: BombEnemy
-  prefab: {fileID: 0}
+  prefab: {fileID: 2758932918608426455, guid: 00cc8bfc3a722de4392d6b9ce98d20b9, type: 3}
   baseHp: 100
   baseMoveSpeed: 3.5
   findRange: 20
-  attackRange: 1
-  meleeDamage: 100
+  attackRange: 5
+  meleeDamage: 9999
   fieldOfView: 60
   obstacleMask:
     serializedVersion: 2

@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: cba85673456f282468593180fd9f8ab3, type: 2}
   attackCool: 1
-  firePoint: {fileID: 0}
+  firePoint: {fileID: 1743658210943746475}
   bulletSpeed: 30
 --- !u!1 &4016609276784844141
 GameObject:

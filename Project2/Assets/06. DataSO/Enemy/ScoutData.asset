@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ScoutData
   m_EditorClassIdentifier: 
   enemyName: ScoutEnemy
-  prefab: {fileID: 0}
+  prefab: {fileID: 2758932918608426455, guid: 67d4c8f2207db9446ba0e9b1aeedec87, type: 3}
   baseHp: 80
   baseMoveSpeed: 5
   findRange: 30

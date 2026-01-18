@@ -1,42 +1,21 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : HealthBase
 {
-    [SerializeField] private int maxHealth = 100;
-    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TMPro.TextMeshProUGUI healthText;
 
-    private int currentHealth;
-    private bool isDead = false;
-
-    private void Awake()
+    protected override void Awake()
     {
-        currentHealth = maxHealth;
+        base.Awake(); //부모의 체력 초기화 실행
         UpdateUI();
     }
 
-    public void TakeDamage(int amount)
+    public override void TakeDamage(int amount)
     {
-        if (isDead) return;
-
-        currentHealth -= amount;
-        if (currentHealth < 0) currentHealth = 0;
-        UpdateUI();
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Heal(int amount)
-    {
-        if (isDead) return;
-
-        currentHealth += amount;
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        base.TakeDamage(amount);
         UpdateUI();
     }
 
@@ -46,9 +25,10 @@ public class PlayerHealth : MonoBehaviour
             healthText.text = $"HP: {currentHealth}/{maxHealth}";
     }
 
-    private void Die()
+    protected override void Die()
     {
         isDead = true;
-        Debug.Log("?? Player has died!");
+        Debug.Log("Player Died!");
+        //여기서 게임오버 팝업 등을 띄움
     }
 }
