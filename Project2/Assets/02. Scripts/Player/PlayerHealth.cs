@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class PlayerHealth : HealthBase
 {
-    [SerializeField] private TMPro.TextMeshProUGUI healthText;
-    [SerializeField] private GameObject gameOverPanel;
-
+    private ScoreManager scoreManager;
     protected override void Awake()
     {
         base.Awake(); //부모의 체력 초기화 실행
+        scoreManager = FindObjectOfType<ScoreManager>();
         UpdateUI();
     }
 
@@ -22,8 +21,8 @@ public class PlayerHealth : HealthBase
 
     private void UpdateUI()
     {
-        if (healthText != null)
-            healthText.text = $"HP: {currentHealth}/{maxHealth}";
+        if (scoreManager != null)
+            scoreManager.UpdateHealthUI(currentHealth, maxHealth);
     }
 
     protected override void Die()
@@ -36,7 +35,7 @@ public class PlayerHealth : HealthBase
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
+        if (scoreManager != null)
+            scoreManager.ShowGameOver();
     }
 }

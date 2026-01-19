@@ -16,8 +16,10 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI clipsText; //예비 탄창 텍스트
     [SerializeField] private TextMeshProUGUI restartText;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private UnityEngine.UI.Slider healthSlider;
+    [SerializeField] private GameObject gameOverPanel;
 
-    // 이제 Ammo와 Clips는 PlayerShooter에서 가져옴
     public int CurrentAmmo;
     public int TotalClips;
     private int MaxAmmo;
@@ -27,9 +29,9 @@ public class ScoreManager : MonoBehaviour
         ResetSession();
 
         if (scorePanel != null)
-        {
             scorePanel.SetActive(isInfiniteMode);
-        }
+
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
         UpdateUI();
     }
@@ -63,6 +65,25 @@ public class ScoreManager : MonoBehaviour
     {
         DataManager.AddScore(amount);
         UpdateUI();
+    }
+    public void UpdateHealthUI(int current, int max)
+    {
+        if (healthText!=null)
+            healthText.text = $"HP: {current}/{max}";
+
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = max;
+            healthSlider.value = current;
+        }
+    }
+
+    public void ShowGameOver()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
     }
 
     private void UpdateUI()
