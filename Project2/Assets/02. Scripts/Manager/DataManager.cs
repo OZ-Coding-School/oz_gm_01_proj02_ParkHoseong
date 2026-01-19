@@ -16,6 +16,7 @@ public class DataManager : MonoBehaviour
 
     public static int TotalScore = 0;
     private const string BestScoreKey = "BestScore";
+    public bool isInfiniteMode = false;
 
     private void Awake()
     {

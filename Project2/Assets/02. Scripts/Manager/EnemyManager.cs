@@ -17,6 +17,18 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
+        if (DataManager.Instance != null)
+        {
+            isInfiniteStage = DataManager.Instance.isInfiniteMode;
+        }
+
+        EnemySpawner[] spawners = GetComponentsInChildren<EnemySpawner>(true);
+
+        foreach (var spawner in spawners)
+        {
+            spawner.gameObject.SetActive(isInfiniteStage);
+        }
+
         if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");

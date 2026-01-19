@@ -57,15 +57,21 @@ public class Bullet : MonoBehaviour
             bool isEnemyHitByEnemy = (owner == BulletOwner.Enemy && other.tag.Contains("Enemy"));
 
             if (isPlayerHitByPlayer || isEnemyHitByEnemy) return;
-            int finalDamage = baseDamage;
-            bool isHeadShot = other.CompareTag("EnemyHead") || other.CompareTag("PlayerHead");
 
-            if (isHeadShot)
+            int finalDamage = baseDamage;
+            bool isHeadShot = false;
+
+            if (other.tag.Contains("Head"))
             {
                 finalDamage *= 3;
+                isHeadShot = true;
             }
-            targetHealth.TakeDamage(finalDamage, isHeadShot);
+            else
+            {
+                isHeadShot = false;
+            }
 
+            targetHealth.TakeDamage(finalDamage, isHeadShot);
             ReturnPool();
         }
     }
