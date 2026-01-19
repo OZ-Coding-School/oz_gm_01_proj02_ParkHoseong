@@ -23,6 +23,8 @@ public class EnemyBase : HealthBase
     private BulletManager bulletManager;
     private Animator anim;
 
+    float explosionRadius = 5f;
+
     protected override void Awake()
     {
         if (data != null)
@@ -162,9 +164,11 @@ public class EnemyBase : HealthBase
         Debug.Log($"{data.enemyName} 원거리 공격!");
     }
 
-    protected override void Die(bool isHeadShot)
+    protected override void Die()
     {
+        if (isDead) return;
         isDead = true;
+
         int finalScore = isHeadShot ? 300 : 100;
 
         ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
@@ -223,7 +227,19 @@ public class EnemyBase : HealthBase
     {
         //자폭 연출을 위한 짧은 대기(0.5초)
         yield return new WaitForSeconds(0.5f);
-        TakeDamage(9999);
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            HealthBase hb = hitCollider.GetComponentInParent<HealthBase>();
+
+            if (hb != null)
+            {
+                //피아구분 없이 데미지 전달
+                hb.TakeDamage(data.meleeDamage, false);
+            }
+        }
     }
 
     // 시야 디버그 표시
@@ -237,5 +253,8 @@ public class EnemyBase : HealthBase
         Vector3 rightDir = Quaternion.Euler(0, data.fieldOfView / 2, 0) * transform.forward;
         Gizmos.DrawLine(transform.position, transform.position + leftDir * data.findRange);
         Gizmos.DrawLine(transform.position, transform.position + rightDir * data.findRange);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerHealth : HealthBase
 {
     [SerializeField] private TMPro.TextMeshProUGUI healthText;
+    [SerializeField] private GameObject gameOverPanel;
 
     protected override void Awake()
     {
@@ -13,9 +14,9 @@ public class PlayerHealth : HealthBase
         UpdateUI();
     }
 
-    public override void TakeDamage(int amount, bool isHeadShot)
+    public override void TakeDamage(int amount, bool isHeadShot = false)
     {
-        base.TakeDamage(amount);
+        base.TakeDamage(amount, isHeadShot);
         UpdateUI();
     }
 
@@ -25,10 +26,17 @@ public class PlayerHealth : HealthBase
             healthText.text = $"HP: {currentHealth}/{maxHealth}";
     }
 
-    protected override void Die(bool isHeadShot)
+    protected override void Die()
     {
         isDead = true;
         Debug.Log("Player Died!");
         //여기서 게임오버 팝업 등을 띄움
+
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
     }
 }

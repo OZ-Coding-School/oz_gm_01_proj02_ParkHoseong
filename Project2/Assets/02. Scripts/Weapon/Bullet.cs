@@ -64,7 +64,7 @@ public class Bullet : MonoBehaviour
             {
                 finalDamage *= 3;
             }
-            targetHealth.TakeDamage(finalDamage);
+            targetHealth.TakeDamage(finalDamage, isHeadShot);
 
             ReturnPool();
         }

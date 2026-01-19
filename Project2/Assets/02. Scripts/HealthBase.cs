@@ -9,6 +9,8 @@ public abstract class HealthBase : MonoBehaviour
     protected int currentHealth;
     protected bool isDead = false;
 
+    public bool isHeadShot { get; protected set; }
+
     protected virtual void Awake()
     {
         currentHealth = maxHealth;
@@ -18,11 +20,13 @@ public abstract class HealthBase : MonoBehaviour
     {
         if (isDead) return;
 
+        this.isHeadShot = isHeadShot;
+
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            Die(isHeadShot);
+            Die();
         }
     }
 
@@ -32,5 +36,5 @@ public abstract class HealthBase : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
     }
 
-    protected abstract void Die(bool isHeadShot);
+    protected abstract void Die();
 }
