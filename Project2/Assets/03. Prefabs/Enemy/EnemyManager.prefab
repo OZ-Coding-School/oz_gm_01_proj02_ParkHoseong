@@ -61,6 +61,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBulletManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1508831833070378027, guid: 878f57a0004a55d45a061aefad2e927c,
+        type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 5896815481570757752, guid: bdbe99911b104c44cbd74b7cb58c4f0b,
+        type: 3}
     - target: {fileID: 5849260325990181516, guid: 878f57a0004a55d45a061aefad2e927c,
         type: 3}
       propertyPath: m_LocalPosition.x
