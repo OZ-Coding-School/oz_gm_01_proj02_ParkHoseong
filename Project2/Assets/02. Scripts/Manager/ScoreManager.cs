@@ -9,16 +9,17 @@ public class ScoreManager : MonoBehaviour
     [Header("모드 설정")]
     [SerializeField] private bool isInfiniteMode = false;
     [SerializeField] private GameObject scorePanel;
+    [SerializeField] private GameObject gameOverPanel;
 
     [Header("UI참조")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private TextMeshProUGUI bestScoreText;
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI clipsText; //예비 탄창 텍스트
     [SerializeField] private TextMeshProUGUI restartText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private UnityEngine.UI.Slider healthSlider;
-    [SerializeField] private GameObject gameOverPanel;
 
     public int CurrentAmmo;
     public int TotalClips;
@@ -40,7 +41,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            SceneManager.LoadScene("FPSField");
+            RestartCurrentScene();
         }
     }
 
@@ -83,12 +84,15 @@ public class ScoreManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+
+            UpdateUI();
         }
     }
 
     private void UpdateUI()
     {
         if (scoreText) scoreText.text = "Score: " + DataManager.TotalScore;
+        if (finalScoreText) finalScoreText.text = "Final Score: " + DataManager.TotalScore;
         if (bestScoreText) bestScoreText.text = "Best: " + DataManager.GetBestScore();
         if (ammoText) ammoText.text = $"Ammo: {CurrentAmmo}/{MaxAmmo}";
         if (clipsText) clipsText.text = $"Clips: {TotalClips}";
@@ -97,5 +101,14 @@ public class ScoreManager : MonoBehaviour
     {
         if (scorePanel != null) scorePanel.SetActive(true);
         UpdateUI();
+    }
+
+    public void RestartCurrentScene()
+    {
+        Time.timeScale = 1f;
+
+        //현재 활성화된 씬의 이름을 가져와서 로드
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 }
