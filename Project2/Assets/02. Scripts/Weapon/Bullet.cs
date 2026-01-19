@@ -44,46 +44,28 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (owner == BulletOwner.Player && other.CompareTag("EnemyHead"))
+        if (other.CompareTag("Wall"))
         {
-            EnemyBase enemy = other.GetComponentInParent<EnemyBase>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(baseDamage * 3);
-                scoreManager?.AddScore(150);
-            }
             ReturnPool();
+            return;
         }
-        else if (owner == BulletOwner.Player && other.CompareTag("EnemyBody"))
+        HealthBase targetHealth = other.GetComponentInParent<HealthBase>();
+        if (targetHealth != null)
         {
-            EnemyBase enemy = other.GetComponentInParent<EnemyBase>();
-            if (enemy != null)
+            //피아식별
+            bool isPlayerHitByPlayer = (owner == BulletOwner.Player && other.tag.Contains("Player"));
+            bool isEnemyHitByEnemy = (owner == BulletOwner.Enemy && other.tag.Contains("Enemy"));
+
+            if (isPlayerHitByPlayer || isEnemyHitByEnemy) return;
+            int finalDamage = baseDamage;
+            bool isHeadShot = other.CompareTag("EnemyHead") || other.CompareTag("PlayerHead");
+
+            if (isHeadShot)
             {
-                enemy.TakeDamage(baseDamage);
-                scoreManager?.AddScore(20);
+                finalDamage *= 3;
             }
-            ReturnPool();
-        }
-        else if (owner == BulletOwner.Enemy && other.CompareTag("PlayerBody"))
-        {
-            PlayerHealth player = other.GetComponentInParent<PlayerHealth>();
-            if (player != null)
-            {
-                player.TakeDamage(baseDamage);
-            }
-            ReturnPool();
-        }
-        else if (owner == BulletOwner.Enemy && other.CompareTag("PlayerHead"))
-        {
-            PlayerHealth player = other.GetComponentInParent<PlayerHealth>();
-            if (player != null)
-            {
-                player.TakeDamage(baseDamage * 3);
-            }
-            ReturnPool();
-        }
-        else if (other.CompareTag("Wall"))
-        {
+            targetHealth.TakeDamage(finalDamage);
+
             ReturnPool();
         }
     }

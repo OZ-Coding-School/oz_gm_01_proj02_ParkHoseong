@@ -13,7 +13,7 @@ public class PlayerHealth : HealthBase
         UpdateUI();
     }
 
-    public override void TakeDamage(int amount)
+    public override void TakeDamage(int amount, bool isHeadShot)
     {
         base.TakeDamage(amount);
         UpdateUI();
@@ -25,7 +25,7 @@ public class PlayerHealth : HealthBase
             healthText.text = $"HP: {currentHealth}/{maxHealth}";
     }
 
-    protected override void Die()
+    protected override void Die(bool isHeadShot)
     {
         isDead = true;
         Debug.Log("Player Died!");

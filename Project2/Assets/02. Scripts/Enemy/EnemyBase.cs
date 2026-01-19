@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : HealthBase
 {
     [SerializeField] private EnemyData data;
 
@@ -16,8 +16,6 @@ public class EnemyBase : MonoBehaviour
 
     private NavMeshAgent agent;
     
-    private int currentHp;
-    private bool isDead = false;
     private bool canSeePlayer = false;
     private float lastAttackTime;
 
@@ -25,14 +23,18 @@ public class EnemyBase : MonoBehaviour
     private BulletManager bulletManager;
     private Animator anim;
 
-    void Awake()
+    protected override void Awake()
     {
+        if (data != null)
+        {
+            maxHealth = data.baseHp;
+        }
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
 
         //일반 Stage->Manager자식으로 적들 넣기
         //Infinite Stage->Manager 자식으로 스포너 넣기
         enemyManager = GetComponentInParent<EnemyManager>();
-        currentHp = data.baseHp;
         anim = GetComponentInChildren<Animator>();
     }
 
@@ -58,7 +60,7 @@ public class EnemyBase : MonoBehaviour
         HandleChase();
     }
 
-    // 시야 판정
+    //시야 판정
     void UpdateSight()
     {
         canSeePlayer = false;
@@ -160,28 +162,24 @@ public class EnemyBase : MonoBehaviour
         Debug.Log($"{data.enemyName} 원거리 공격!");
     }
 
-    // 체력 관리
-    public void TakeDamage(int amount)
-    {
-        if (isDead) return;
-
-        currentHp -= amount;
-        if (currentHp <= 0)
-        {
-            Die();
-        }
-    }
-
-    void Die()
+    protected override void Die(bool isHeadShot)
     {
         isDead = true;
-        agent.isStopped = true;
+        int finalScore = isHeadShot ? 300 : 100;
 
-        anim.SetTrigger("Die");
+        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager != null)
+        {
+            scoreManager.AddScore(finalScore);
+        }
+
+        if (agent != null) agent.isStopped = true;
+
+        if (anim != null) anim.SetTrigger("Die");
 
         StartCoroutine(DisableAfterDelay(2.5f));
 
-        Debug.Log($"{data.enemyName} 사망");
+        Debug.Log($"{(isHeadShot ? "헤드샷! " : "")}{data.enemyName} 사살! {finalScore}점 획득");
     }
 
     private IEnumerator DisableAfterDelay(float delay)
@@ -201,7 +199,8 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
-        currentHp = data.baseHp;
+        maxHealth = data.baseHp;
+        currentHealth = maxHealth;
         isDead = false;
 
         if (agent != null)

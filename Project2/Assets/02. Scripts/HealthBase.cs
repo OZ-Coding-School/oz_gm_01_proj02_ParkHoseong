@@ -14,7 +14,7 @@ public abstract class HealthBase : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount, bool isHeadShot = false)
     {
         if (isDead) return;
 
@@ -22,7 +22,7 @@ public abstract class HealthBase : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            Die();
+            Die(isHeadShot);
         }
     }
 
@@ -32,5 +32,5 @@ public abstract class HealthBase : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
     }
 
-    protected abstract void Die();
+    protected abstract void Die(bool isHeadShot);
 }
