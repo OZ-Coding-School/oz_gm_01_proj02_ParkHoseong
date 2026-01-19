@@ -36,7 +36,9 @@ public class PauseManager : MonoBehaviour
 
         Time.timeScale = 0f; // 게임 일시정지
 
-        // 에러 해결: SetLock 대신 Acquire 사용
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         InputLockManager.Acquire("PauseMenu");
     }
 
