@@ -29,3 +29,4 @@ MonoBehaviour:
   playerTag: Player
   isRanged: 1
   isMelee: 0
+  isScout: 1

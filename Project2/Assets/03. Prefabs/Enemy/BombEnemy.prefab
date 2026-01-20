@@ -130,10 +130,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fe3082a9d9e114db2de33b2f53c2f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   data: {fileID: 11400000, guid: cba85673456f282468593180fd9f8ab3, type: 2}
   attackCool: 1
   firePoint: {fileID: 1743658210943746475}
   bulletSpeed: 30
+  usePatrol: 1
+  patrolPoints: []
+  patrolArriveDistance: 0.6
+  patrolWaitTime: 0.5
 --- !u!1 &4016609276784844141
 GameObject:
   m_ObjectHideFlags: 0

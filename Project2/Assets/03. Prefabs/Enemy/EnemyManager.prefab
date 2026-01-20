@@ -48,6 +48,7 @@ MonoBehaviour:
   player: {fileID: 0}
   currentStageIndex: 0
   isInfiniteStage: 0
+  scoutAlertDelay: 5
 --- !u!1001 &2520971122641384994
 PrefabInstance:
   m_ObjectHideFlags: 0

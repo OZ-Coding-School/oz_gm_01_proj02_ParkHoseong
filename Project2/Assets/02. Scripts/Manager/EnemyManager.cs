@@ -122,9 +122,8 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
-            if (seeingScouts.Contains(scout)) seeingScouts.Remove(scout);
+            seeingScouts.Remove(scout);
 
-            // If no scout is seeing player anymore, cancel pending alert
             if (seeingScouts.Count <= 0)
             {
                 CancelScoutAlert();
@@ -135,18 +134,6 @@ public class EnemyManager : MonoBehaviour
     public void NotifyScoutDied(EnemyBase scout)
     {
         SetScoutSeeing(scout, false);
-    }
-
-    public void RaisePlayerSpottedDelayed()
-    {
-        if (isPlayerSpotted || isSpottingPending) return;
-        if (seeingScouts.Count <= 0) return;
-
-        if (!isSpottingPending)
-        {
-            isSpottingPending = true;
-            scoutAlertCoroutine = StartCoroutine(CoScoutAlertDelay());
-        }
     }
 
     private IEnumerator CoScoutAlertDelay()

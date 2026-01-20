@@ -266,6 +266,11 @@ public class EnemyBase : HealthBase
         if (isDead) return;
         isDead = true;
 
+        if (data != null && data.isScout && enemyManager != null)
+        {
+            enemyManager.NotifyScoutDied(this);
+        }
+
         int finalScore = isHeadShot ? 300 : 100;
 
         ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
@@ -336,6 +341,14 @@ public class EnemyBase : HealthBase
                 //피아구분 없이 데미지 전달
                 hb.TakeDamage(data.meleeDamage, false);
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (data != null && data.isScout && enemyManager != null)
+        {
+            enemyManager.SetScoutSeeing(this, false);
         }
     }
 
