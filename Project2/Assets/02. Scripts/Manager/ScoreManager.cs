@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bestScoreText;
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI clipsText; //예비 탄창 텍스트
-    [SerializeField] private TextMeshProUGUI restartText;
+    [SerializeField] private TextMeshProUGUI resultTitleText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private UnityEngine.UI.Slider healthSlider;
 
@@ -74,11 +74,18 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public void ShowGameOver()
+    public void ShowGameOver(bool isWin)
     {
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+
+            if (resultTitleText != null)
+            {
+                resultTitleText.text = isWin ? "STAGE CLEAR!" : "YOU DIE";
+                
+                resultTitleText.color = isWin ? Color.green : Color.red;
+            }
 
             UpdateUI();
 

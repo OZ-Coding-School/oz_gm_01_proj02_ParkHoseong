@@ -29485,6 +29485,11 @@ PrefabInstance:
       propertyPath: finalScoreText
       value: 
       objectReference: {fileID: 1229229468}
+    - target: {fileID: 3497843349457391315, guid: f4d6ecbcd6f598445acec80e513021e6,
+        type: 3}
+      propertyPath: resultTitleText
+      value: 
+      objectReference: {fileID: 1596309810}
     - target: {fileID: 6855478945538532648, guid: f4d6ecbcd6f598445acec80e513021e6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -68190,6 +68195,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639757851092279969, guid: c8b7d47f52bf8a54085f3a60625ca899,
+        type: 3}
+      propertyPath: m_text
+      value: restart
       objectReference: {fileID: 0}
     - target: {fileID: 3782350475271583994, guid: c8b7d47f52bf8a54085f3a60625ca899,
         type: 3}

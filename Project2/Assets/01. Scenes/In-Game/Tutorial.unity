@@ -463,6 +463,11 @@ PrefabInstance:
       propertyPath: finalScoreText
       value: 
       objectReference: {fileID: 654095157}
+    - target: {fileID: 3497843349457391315, guid: f4d6ecbcd6f598445acec80e513021e6,
+        type: 3}
+      propertyPath: resultTitleText
+      value: 
+      objectReference: {fileID: 491398670}
     - target: {fileID: 6855478945538532648, guid: f4d6ecbcd6f598445acec80e513021e6,
         type: 3}
       propertyPath: m_LocalPosition.x

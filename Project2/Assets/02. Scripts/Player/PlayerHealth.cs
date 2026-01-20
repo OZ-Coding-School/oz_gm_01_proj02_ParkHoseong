@@ -36,6 +36,6 @@ public class PlayerHealth : HealthBase
         Cursor.visible = true;
 
         if (scoreManager != null)
-            scoreManager.ShowGameOver();
+            scoreManager.ShowGameOver(false);
     }
 }

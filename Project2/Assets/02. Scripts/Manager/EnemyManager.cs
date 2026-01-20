@@ -76,7 +76,11 @@ public class EnemyManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        SceneManager.LoadScene("StageSelectScene");
+        ScoreManager sm = FindFirstObjectByType<ScoreManager>();
+        if (sm != null)
+        {
+            sm.ShowGameOver(true);
+        }
     }
 
     public Transform GetPlayerTransform()
