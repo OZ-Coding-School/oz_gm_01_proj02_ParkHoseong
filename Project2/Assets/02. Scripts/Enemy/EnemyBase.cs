@@ -14,6 +14,16 @@ public class EnemyBase : HealthBase
     [SerializeField] private Transform firePoint;
     [SerializeField] private float bulletSpeed = 30f;
 
+    [Header("Patrol")]
+    [SerializeField] private bool usePatrol = true;
+    [SerializeField] private Transform[] patrolPoints;
+    [SerializeField] private float patrolArriveDistance = 0.6f;
+    [SerializeField] private float patrolWaitTime = 0.5f;
+
+    private int patrolIndex = 0;
+    private int patrolDir = 1; //1 or -1
+    private float patrolWaitEndTime = -1f;
+
     private NavMeshAgent agent;
     
     private bool canSeePlayer = false;
@@ -56,6 +66,17 @@ public class EnemyBase : HealthBase
         else
         {
             StartCoroutine(SightUpdateRoutine());
+
+            if (!data.isMelee && usePatrol && patrolPoints != null && patrolPoints.Length > 0)
+            {
+                patrolIndex = Mathf.Clamp(patrolIndex, 0, patrolPoints.Length - 1);
+
+                if (agent != null && agent.isOnNavMesh)
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(patrolPoints[patrolIndex].position);
+                }
+            }
         }
 
         agent.speed = data.baseMoveSpeed;
@@ -87,18 +108,17 @@ public class EnemyBase : HealthBase
         Vector3 targetPos = enemyManager.PlayerPosition;
         Vector3 dirToPlayer = (targetPos - transform.position).normalized;
         float distToPlayer = Vector3.Distance(transform.position, targetPos);
-
-        if (distToPlayer > data.findRange)
-            return;
-
         float angle = Vector3.Angle(transform.forward, dirToPlayer);
-        if (angle > data.fieldOfView * 0.5f)
-            return;
+        bool inRange = distToPlayer <= data.findRange;
+        bool inFov = angle <= data.fieldOfView * 0.5f;
 
-        if (!Physics.Raycast(transform.position + Vector3.up * 1.5f, dirToPlayer, distToPlayer, data.obstacleMask))
+        if (inRange && inFov)
         {
-            canSeePlayer = true;
+            if (!Physics.Raycast(transform.position + Vector3.up * 1.5f, dirToPlayer, distToPlayer, data.obstacleMask))
+                canSeePlayer = true;
         }
+        if (data.isScout && enemyManager != null)
+            enemyManager.SetScoutSeeing(this, canSeePlayer);
     }
 
     //추격/공격 거리 제어
@@ -106,7 +126,9 @@ public class EnemyBase : HealthBase
     {
         float dist = Vector3.Distance(transform.position, enemyManager.PlayerPosition);
 
-        if (canSeePlayer)
+        bool seen = canSeePlayer || (enemyManager != null && enemyManager.IsPlayerSpotted);
+
+        if (seen)
         {
             if (dist > data.attackRange)
             {
@@ -128,7 +150,61 @@ public class EnemyBase : HealthBase
         }
         else
         {
+            if (!enemyManager.isInfiniteStage
+            && !data.isMelee
+            && usePatrol
+            && patrolPoints != null
+            && patrolPoints.Length > 0)
+            {
+                UpdatePatrol();
+            }
+            else
+            {
+                agent.isStopped = true;
+
+                if (agent.isOnNavMesh) 
+                    agent.ResetPath();
+            }
+        }
+    }
+
+    private void UpdatePatrol()
+    {
+        if (!agent.isOnNavMesh) return;
+
+        if (patrolWaitEndTime > 0f && Time.time < patrolWaitEndTime)
+        {
             agent.isStopped = true;
+            agent.ResetPath();
+            return;
+        }
+
+        agent.isStopped = false;
+
+        Transform target = patrolPoints[Mathf.Clamp(patrolIndex, 0, patrolPoints.Length - 1)];
+        agent.SetDestination(target.position);
+
+        if (!agent.pathPending && agent.remainingDistance <= Mathf.Max(patrolArriveDistance, agent.stoppingDistance + 0.05f))
+        {
+            patrolWaitEndTime = Time.time + Mathf.Max(0f, patrolWaitTime);
+
+            if (patrolPoints.Length >= 2)
+            {
+                int next = patrolIndex + patrolDir;
+
+                if (next >= patrolPoints.Length)
+                {
+                    patrolDir = -1;
+                    next = patrolIndex + patrolDir;
+                }
+                else if (next < 0)
+                {
+                    patrolDir = 1;
+                    next = patrolIndex + patrolDir;
+                }
+
+                patrolIndex = Mathf.Clamp(next, 0, patrolPoints.Length - 1);
+            }
         }
     }
 

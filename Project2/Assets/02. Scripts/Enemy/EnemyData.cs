@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "Data/Enemy Data")]
 public class EnemyData : ScriptableObject
@@ -23,4 +23,5 @@ public class EnemyData : ScriptableObject
     [Header("AI Type")]
     public bool isRanged = false;
     public bool isMelee = false;
+    public bool isScout = false;
 }

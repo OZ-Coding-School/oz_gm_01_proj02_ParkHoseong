@@ -12,8 +12,18 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int currentStageIndex;
     [SerializeField] public bool isInfiniteStage = false;
 
+    [SerializeField] private float scoutAlertDelay = 1.5f;
+
     public Vector3 PlayerPosition { get; private set; }
     private bool isCleared = false;
+
+    private bool isPlayerSpotted = false;
+    private bool isSpottingPending = false;
+    private Coroutine scoutAlertCoroutine = null;
+
+    private HashSet<EnemyBase> seeingScouts = new HashSet<EnemyBase>();
+    public bool IsPlayerSpotted { get { return isPlayerSpotted; } }
+
 
     private void Awake()
     {
@@ -86,5 +96,81 @@ public class EnemyManager : MonoBehaviour
     public Transform GetPlayerTransform()
     { 
         return player;
+    }
+
+    public void PlayerSpotted()
+    {
+        if (isPlayerSpotted) return;
+        isPlayerSpotted = true;
+    }
+
+    public void SetScoutSeeing(EnemyBase scout, bool isSeeing)
+    {
+        if (isPlayerSpotted) return;
+        if (scout == null) return;
+
+        if (isSeeing)
+        {
+            seeingScouts.Add(scout);
+
+            // Start delay only once
+            if (!isSpottingPending)
+            {
+                isSpottingPending = true;
+                scoutAlertCoroutine = StartCoroutine(CoScoutAlertDelay());
+            }
+        }
+        else
+        {
+            if (seeingScouts.Contains(scout)) seeingScouts.Remove(scout);
+
+            // If no scout is seeing player anymore, cancel pending alert
+            if (seeingScouts.Count <= 0)
+            {
+                CancelScoutAlert();
+            }
+        }
+    }
+
+    public void NotifyScoutDied(EnemyBase scout)
+    {
+        SetScoutSeeing(scout, false);
+    }
+
+    public void RaisePlayerSpottedDelayed()
+    {
+        if (isPlayerSpotted || isSpottingPending) return;
+        if (seeingScouts.Count <= 0) return;
+
+        if (!isSpottingPending)
+        {
+            isSpottingPending = true;
+            scoutAlertCoroutine = StartCoroutine(CoScoutAlertDelay());
+        }
+    }
+
+    private IEnumerator CoScoutAlertDelay()
+    {
+        if (scoutAlertDelay > 0f)
+            yield return new WaitForSeconds(scoutAlertDelay);
+
+        if (!isPlayerSpotted && seeingScouts.Count > 0)
+            isPlayerSpotted = true;
+
+        isSpottingPending = false;
+        scoutAlertCoroutine = null;
+    }
+
+    private void CancelScoutAlert()
+    {
+        if (!isSpottingPending) return;
+
+        if (scoutAlertCoroutine != null)
+        {
+            StopCoroutine(scoutAlertCoroutine);
+            scoutAlertCoroutine = null;
+        }
+
+        isSpottingPending = false;
     }
 }
