@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Stage Settings")]
     [SerializeField] private int currentStageIndex;
-    [SerializeField] private bool isInfiniteStage = false;
+    [SerializeField] public bool isInfiniteStage = false;
 
     public Vector3 PlayerPosition { get; private set; }
     private bool isCleared = false;

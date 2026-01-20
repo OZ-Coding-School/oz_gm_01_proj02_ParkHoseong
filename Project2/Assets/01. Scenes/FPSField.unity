@@ -875,7 +875,7 @@ PrefabInstance:
     - target: {fileID: 3497843349457391315, guid: f4d6ecbcd6f598445acec80e513021e6,
         type: 3}
       propertyPath: isInfiniteMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6855478945538532648, guid: f4d6ecbcd6f598445acec80e513021e6,
         type: 3}
@@ -1706,11 +1706,11 @@ SceneRoots:
   - {fileID: 6749820222439368606}
   - {fileID: 3985747426299727053}
   - {fileID: 3313185085300071284}
-  - {fileID: 3199970180804306246}
   - {fileID: 1594354368254872938}
   - {fileID: 8004126461982553016}
   - {fileID: 407812588}
-  - {fileID: 1809967418}
-  - {fileID: 1227327800180197403}
-  - {fileID: 1840584132}
+  - {fileID: 3199970180804306246}
   - {fileID: 1953471371}
+  - {fileID: 1840584132}
+  - {fileID: 1227327800180197403}
+  - {fileID: 1809967418}

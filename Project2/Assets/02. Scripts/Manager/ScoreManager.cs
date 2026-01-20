@@ -27,6 +27,9 @@ public class ScoreManager : MonoBehaviour
 
     void Awake()
     {
+        if (DataManager.Instance != null)
+            isInfiniteMode = DataManager.Instance.isInfiniteMode;
+
         ResetSession();
 
         if (scorePanel != null)
@@ -35,14 +38,6 @@ public class ScoreManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
         UpdateUI();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            RestartCurrentScene();
-        }
     }
 
     public void ResetSession()
@@ -86,6 +81,9 @@ public class ScoreManager : MonoBehaviour
             gameOverPanel.SetActive(true);
 
             UpdateUI();
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -101,14 +99,5 @@ public class ScoreManager : MonoBehaviour
     {
         if (scorePanel != null) scorePanel.SetActive(true);
         UpdateUI();
-    }
-
-    public void RestartCurrentScene()
-    {
-        Time.timeScale = 1f;
-
-        //현재 활성화된 씬의 이름을 가져와서 로드
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
     }
 }

@@ -26,6 +26,11 @@ public class PauseManager : MonoBehaviour
             if (isPaused) Resume();
             else Pause();
         }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            RestartStage();
+        }
     }
 
     // Menu Button을 눌렀을 때 호출
@@ -77,5 +82,19 @@ public class PauseManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void RestartStage()
+    {
+        Time.timeScale = 1f;
+        //현재 활성화된 씬을 다시 로드
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitToStageSelect()
+    {
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene("StageSelectScene");
     }
 }

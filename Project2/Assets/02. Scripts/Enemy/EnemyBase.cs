@@ -49,7 +49,25 @@ public class EnemyBase : HealthBase
                 bulletManager = bmObj.GetComponent<BulletManager>();
         }
 
+        if (enemyManager.isInfiniteStage)
+        {
+            canSeePlayer = true;
+        }
+        else
+        {
+            StartCoroutine(SightUpdateRoutine());
+        }
+
         agent.speed = data.baseMoveSpeed;
+    }
+
+    IEnumerator SightUpdateRoutine()
+    {
+        while (!isDead)
+        {
+            UpdateSight();
+            yield return new WaitForSeconds(0.2f); // 0.2초마다 체크 (성능 최적화)
+        }
     }
 
     void Update()
@@ -58,7 +76,6 @@ public class EnemyBase : HealthBase
 
         anim.SetFloat("Speed", agent.velocity.magnitude);
 
-        UpdateSight();
         HandleChase();
     }
 
@@ -67,8 +84,9 @@ public class EnemyBase : HealthBase
     {
         canSeePlayer = false;
 
-        Vector3 dirToPlayer = (enemyManager.PlayerPosition - transform.position).normalized;
-        float distToPlayer = Vector3.Distance(transform.position, enemyManager.PlayerPosition);
+        Vector3 targetPos = enemyManager.PlayerPosition;
+        Vector3 dirToPlayer = (targetPos - transform.position).normalized;
+        float distToPlayer = Vector3.Distance(transform.position, targetPos);
 
         if (distToPlayer > data.findRange)
             return;
@@ -98,6 +116,9 @@ public class EnemyBase : HealthBase
             else
             {
                 agent.isStopped = true;
+
+                if (agent.isOnNavMesh) 
+                    agent.ResetPath();
 
                 if (data.isMelee)
                     AttackMelee();
