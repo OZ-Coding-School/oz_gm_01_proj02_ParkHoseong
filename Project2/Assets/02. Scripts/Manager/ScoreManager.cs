@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviour
 {
     [Header("모드 설정")]
-    [SerializeField] private bool isInfiniteMode = false;
     [SerializeField] private GameObject scorePanel;
     [SerializeField] private GameObject gameOverPanel;
 
@@ -27,8 +26,7 @@ public class ScoreManager : MonoBehaviour
 
     void Awake()
     {
-        if (DataManager.Instance != null)
-            isInfiniteMode = DataManager.Instance.isInfiniteMode;
+        bool isInfiniteMode = (DataManager.Instance != null && DataManager.Instance.selectedMode == 2);
 
         ResetSession();
 

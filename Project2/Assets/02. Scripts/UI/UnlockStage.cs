@@ -8,6 +8,8 @@ public class UnlockStage : MonoBehaviour
     [Header("스테이지 설정")]
     [SerializeField] private int stageIndex;
 
+    [SerializeField] private int mode = 0;
+
     //[Header("UI 설정")]
     //public Sprite lockSprite;   //잠긴 상태 이미지
     //public Sprite unlockSprite; //해금된 상태 이미지
@@ -62,17 +64,18 @@ public class UnlockStage : MonoBehaviour
     {
         bool isUnlocked = false;
 
-        if (stageIndex == 0)
+        if (DataManager.Instance != null)
         {
-            isUnlocked = true;
-        }
-        else
-        {
-            if (DataManager.Instance != null && stageIndex <= DataManager.Instance.stageCleared.Length)
+            if (stageIndex >= 0 && stageIndex < DataManager.Instance.stageCount)
             {
-                isUnlocked = DataManager.Instance.stageCleared[stageIndex - 1];
+                int m = mode;
+                if (m < 0) m = 0;
+                if (m > 2) m = 2;
+
+                isUnlocked = DataManager.Instance.IsUnlocked(stageIndex, m);
             }
         }
+
         this.gameObject.SetActive(isUnlocked);
     }
 

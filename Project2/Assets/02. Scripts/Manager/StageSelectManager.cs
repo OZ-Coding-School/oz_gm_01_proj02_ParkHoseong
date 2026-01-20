@@ -7,30 +7,41 @@ public class StageSelectManager : MonoBehaviour
 {
     public void LoadTutorial()
     {
+        if (DataManager.Instance != null)
+            DataManager.Instance.selectedMode = 0;
+
         SceneManager.LoadScene("Tutorial");
     }
 
     public void LoadStage1()
     {
-        DataManager.Instance.isInfiniteMode = false;
+        if (DataManager.Instance != null)
+            DataManager.Instance.selectedMode = 0;
+
         SceneManager.LoadScene("Stage1");
     }
 
     public void LoadStage2()
     {
-        DataManager.Instance.isInfiniteMode = false;
+        if (DataManager.Instance != null)
+            DataManager.Instance.selectedMode = 0;
+
         SceneManager.LoadScene("Stage2");
     }
 
     public void LoadInfiniteStage1()
     {
-        DataManager.Instance.isInfiniteMode = true;
+        if (DataManager.Instance != null)
+            DataManager.Instance.selectedMode = 2;
+
         SceneManager.LoadScene("Stage1");
     }
 
     public void LoadInfiniteStage2()
     {
-        DataManager.Instance.isInfiniteMode = true;
+        if (DataManager.Instance != null)
+            DataManager.Instance.selectedMode = 2;
+
         SceneManager.LoadScene("Stage2");
     }
 

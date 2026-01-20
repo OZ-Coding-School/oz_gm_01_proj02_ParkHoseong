@@ -24,12 +24,14 @@ public class EnemyManager : MonoBehaviour
     private HashSet<EnemyBase> seeingScouts = new HashSet<EnemyBase>();
     public bool IsPlayerSpotted { get { return isPlayerSpotted; } }
 
+    private int mode = 0;
 
     private void Awake()
     {
         if (DataManager.Instance != null)
         {
-            isInfiniteStage = DataManager.Instance.isInfiniteMode;
+            mode = DataManager.Instance.selectedMode;
+            isInfiniteStage = (mode == 2);
         }
 
         EnemySpawner[] spawners = GetComponentsInChildren<EnemySpawner>(true);
@@ -48,14 +50,14 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-    // Update is called once per frame
+    //Update is called once per frame
     void Update()
     {
         if (player == null)return;
 
         PlayerPosition=player.position;
 
-        if (!isInfiniteStage && !isCleared)
+        if (mode != 2 && !isCleared)
         {
             CheckStageClear();
         }
@@ -77,8 +79,7 @@ public class EnemyManager : MonoBehaviour
 
         if (DataManager.Instance != null)
         {
-            DataManager.Instance.ClearStage(currentStageIndex);
-            DataManager.Instance.Save();
+            DataManager.Instance.ClearMission(currentStageIndex, mode);
         }
 
         yield return new WaitForSeconds(2.0f); //연출을 위한 대기
@@ -113,7 +114,7 @@ public class EnemyManager : MonoBehaviour
         {
             seeingScouts.Add(scout);
 
-            // Start delay only once
+            //Start delay only once
             if (!isSpottingPending)
             {
                 isSpottingPending = true;

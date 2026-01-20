@@ -2210,6 +2210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
+      propertyPath: scoutAlertDelay
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
       propertyPath: currentStageIndex
       value: 99
       objectReference: {fileID: 0}

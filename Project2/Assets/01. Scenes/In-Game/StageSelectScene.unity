@@ -214,6 +214,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 279493441602159139, guid: 672033ba71f09e041b456c4eedb6138e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 638103122281422819, guid: 672033ba71f09e041b456c4eedb6138e,
         type: 3}
       propertyPath: m_AnchorMax.y
