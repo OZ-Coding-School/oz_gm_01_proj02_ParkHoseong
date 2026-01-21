@@ -29,10 +29,11 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI missionGuideText;
     [SerializeField] private Image missionGuideImage;
 
-    [Header("Mission Guide Sprites")]
+    [Header("Mission Guide")]
     [SerializeField] private Sprite scoutGuideSprite;
     [SerializeField] private Sprite annihilationGuideSprite;
     [SerializeField] private Sprite infiniteGuideSprite;
+    [SerializeField] private TextMeshProUGUI tutorialGuideText;
 
     public int CurrentAmmo;
     public int TotalClips;
@@ -103,18 +104,6 @@ public class ScoreManager : MonoBehaviour
 
     private void SetMissionGuideVisible(bool visible)
     {
-
-        if (currentStageIndex == 0)
-        {
-            if (missionGuideText != null)
-                missionGuideText.text = "Tutorial: Learn how to move/shoot/reload and then get to the escape hatch. (Tab: Toggle guidance)";
-
-            if (missionGuideImage != null)
-                missionGuideImage.enabled = false;
-
-            return;
-        }
-
         if (missionGuidePanel != null)
         {
             if (missionGuidePanel.activeSelf != visible)
@@ -126,6 +115,12 @@ public class ScoreManager : MonoBehaviour
         {
             if (missionGuideText.gameObject.activeSelf != visible)
                 missionGuideText.gameObject.SetActive(visible);
+        }
+
+        if (tutorialGuideText != null)
+        {
+            if (tutorialGuideText.gameObject.activeSelf != visible)
+                tutorialGuideText.gameObject.SetActive(visible);
         }
     }
 
@@ -223,6 +218,20 @@ public class ScoreManager : MonoBehaviour
 
     public void SetMissionGuide(int mode)
     {
+        if (currentStageIndex == 0)
+        {
+            if (tutorialGuideText != null) tutorialGuideText.gameObject.SetActive(true);
+            if (missionGuideText != null) missionGuideText.gameObject.SetActive(false);
+
+            if (missionGuideImage != null) missionGuideImage.enabled = false;
+            return;
+        }
+        else
+        {
+            if (tutorialGuideText != null) tutorialGuideText.gameObject.SetActive(false);
+            if (missionGuideText != null) missionGuideText.gameObject.SetActive(true);
+        }
+
         if (missionGuideText == null) return;
 
         if (mode == 0) //정찰

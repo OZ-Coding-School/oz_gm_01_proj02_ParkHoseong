@@ -20,7 +20,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (continueButton == null) return;
 
-        bool hasSaveData = PlayerPrefs.HasKey("LastClearedStage");
+        bool hasSaveData = (DataManager.Instance != null && DataManager.Instance.HasAnyProgress());
 
         continueButton.interactable = hasSaveData;
     }

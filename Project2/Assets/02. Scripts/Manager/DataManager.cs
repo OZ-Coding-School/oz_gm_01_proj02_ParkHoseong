@@ -162,4 +162,15 @@ public class DataManager : MonoBehaviour
     {
         TotalScore = 0;
     }
+
+    public bool HasAnyProgress()
+    {
+        if (stageClearMask == null) return false;
+
+        for (int i = 0; i < stageClearMask.Length; i++)
+        {
+            if (stageClearMask[i] != 0) return true;
+        }
+        return false;
+    }
 }
