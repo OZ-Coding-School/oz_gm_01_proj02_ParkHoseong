@@ -12,6 +12,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int currentStageIndex;
     [SerializeField] public bool isInfiniteStage = false;
 
+    [Header("Scout Mode Settings")]
+    [SerializeField] private Transform goalPoint;
+    [SerializeField] private float goalRadius = 3.0f;
+
     [SerializeField] private float scoutAlertDelay = 1.5f;
 
     public Vector3 PlayerPosition { get; private set; }
@@ -25,6 +29,11 @@ public class EnemyManager : MonoBehaviour
     public bool IsPlayerSpotted { get { return isPlayerSpotted; } }
 
     private int mode = 0;
+
+    private ScoreManager scoreManager;
+    public bool IsInfiniteStage => isInfiniteStage;
+
+    public int CurrentStageIndex => currentStageIndex;
 
     private void Awake()
     {
@@ -49,6 +58,12 @@ public class EnemyManager : MonoBehaviour
                 player = playerObj.transform;
             }
         }
+        scoreManager = FindFirstObjectByType<ScoreManager>();
+    }
+    private void Start()
+    {
+        if (scoreManager != null)
+            scoreManager.SetMissionGuide(mode);
     }
     //Update is called once per frame
     void Update()
@@ -57,9 +72,27 @@ public class EnemyManager : MonoBehaviour
 
         PlayerPosition=player.position;
 
-        if (mode != 2 && !isCleared)
+        if (!isCleared && !isInfiniteStage)
         {
-            CheckStageClear();
+            if (mode == 0) //정찰 모드
+            {
+                CheckGoalClear();
+            }
+            else if (mode == 1) //섬멸 모드
+            {
+                CheckStageClear();
+            }
+        }
+    }
+
+    private void CheckGoalClear()
+    {
+        if (goalPoint == null) return;
+
+        float dist = Vector3.Distance(player.position, goalPoint.position);
+        if (dist <= goalRadius)
+        {
+            StartCoroutine(ClearSequence());
         }
     }
 
@@ -82,15 +115,16 @@ public class EnemyManager : MonoBehaviour
             DataManager.Instance.ClearMission(currentStageIndex, mode);
         }
 
+        if (scoreManager != null && mode == 0) scoreManager.SetWarning(false);
+
         yield return new WaitForSeconds(2.0f); //연출을 위한 대기
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        ScoreManager sm = FindFirstObjectByType<ScoreManager>();
-        if (sm != null)
+        if (scoreManager != null)
         {
-            sm.ShowGameOver(true);
+            scoreManager.ShowGameOver(true);
         }
     }
 
@@ -99,7 +133,7 @@ public class EnemyManager : MonoBehaviour
         return player;
     }
 
-    public void PlayerSpotted()
+    public void PlayerSpotted(Vector3 lastPosition)
     {
         if (isPlayerSpotted) return;
         isPlayerSpotted = true;
@@ -107,6 +141,8 @@ public class EnemyManager : MonoBehaviour
 
     public void SetScoutSeeing(EnemyBase scout, bool isSeeing)
     {
+        if (mode == 2) return;
+
         if (isPlayerSpotted) return;
         if (scout == null) return;
 
@@ -114,7 +150,9 @@ public class EnemyManager : MonoBehaviour
         {
             seeingScouts.Add(scout);
 
-            //Start delay only once
+            if (scoreManager != null && mode == 0)
+                scoreManager.SetWarning(true, "발각되었으니 사살하거나 거리를 벌리세요!");
+
             if (!isSpottingPending)
             {
                 isSpottingPending = true;
@@ -127,6 +165,9 @@ public class EnemyManager : MonoBehaviour
 
             if (seeingScouts.Count <= 0)
             {
+                if (scoreManager != null && mode == 0)
+                    scoreManager.SetWarning(false);
+
                 CancelScoutAlert();
             }
         }
@@ -143,7 +184,12 @@ public class EnemyManager : MonoBehaviour
             yield return new WaitForSeconds(scoutAlertDelay);
 
         if (!isPlayerSpotted && seeingScouts.Count > 0)
+        {
             isPlayerSpotted = true;
+
+            if (scoreManager != null && mode == 0)
+                scoreManager.SetWarning(true, "발각되었습니다! 적이 모두 몰려옵니다!");
+        }
 
         isSpottingPending = false;
         scoutAlertCoroutine = null;
@@ -160,5 +206,14 @@ public class EnemyManager : MonoBehaviour
         }
 
         isSpottingPending = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (goalPoint != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(goalPoint.position, goalRadius);
+        }
     }
 }

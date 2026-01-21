@@ -352,7 +352,7 @@ public class EnemyBase : HealthBase
         }
     }
 
-    // 시야 디버그 표시
+    //시야 디버그 표시
     private void OnDrawGizmosSelected()
     {
         if (data == null) return;
