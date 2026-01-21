@@ -32,6 +32,19 @@ public class PlayerShooter : MonoBehaviour
     [Header("Animation (Direct Assignment)")]
     [SerializeField] private Animator animator;
 
+    [Header("Lean")]
+    [SerializeField] private float leanAngle = 12f;
+    [SerializeField] private float leanOffset = 0.18f;
+    [SerializeField] private float leanSpeed = 12f;
+
+    private const KeyCode LeanLeftKey = KeyCode.Q;
+    private const KeyCode LeanRightKey = KeyCode.E;
+
+    private float currentLean = 0f;   // -1..1
+    private float targetLean = 0f;    // -1..1
+    private Vector3 pitchRootBaseLocalPos;
+    private bool pitchRootBasePosCached = false;
+
     private Vector3 currentRotation;
     private Vector3 targetRotation;
 
@@ -49,6 +62,12 @@ public class PlayerShooter : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (pitchRoot != null && !pitchRootBasePosCached)
+        {
+            pitchRootBaseLocalPos = pitchRoot.localPosition;
+            pitchRootBasePosCached = true;
+        }
 
         if (activeWeaponObject != null && activeWeaponObject.weaponData != null)
         {
@@ -91,7 +110,29 @@ public class PlayerShooter : MonoBehaviour
 
         if (yawRoot) yawRoot.Rotate(Vector3.up, mx + (currentRotation.y*0.1f), Space.World);
         pitch = Mathf.Clamp(pitch - my - (currentRotation.x*0.1f), -85f, 85f);
-        if (pitchRoot) pitchRoot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+
+        bool left = Input.GetKey(LeanLeftKey);
+        bool right = Input.GetKey(LeanRightKey);
+
+        if (left && !right) targetLean = -1f;
+        else if (right && !left) targetLean = 1f;
+        else targetLean = 0f;
+
+        currentLean = Mathf.MoveTowards(currentLean, targetLean, leanSpeed * Time.deltaTime);
+
+        if (pitchRoot)
+        {
+            if (!pitchRootBasePosCached)
+            {
+                pitchRootBaseLocalPos = pitchRoot.localPosition;
+                pitchRootBasePosCached = true;
+            }
+
+            float roll = leanAngle * currentLean;
+
+            pitchRoot.localRotation = Quaternion.Euler(pitch, 0f, roll);
+            pitchRoot.localPosition = pitchRootBaseLocalPos + new Vector3(leanOffset * currentLean, 0f, 0f);
+        }
     }
 
     // 발사 처리 (연사/단발)

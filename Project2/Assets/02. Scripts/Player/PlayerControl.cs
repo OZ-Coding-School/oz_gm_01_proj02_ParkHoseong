@@ -18,7 +18,10 @@ public class PlayerControl : MonoBehaviour
     private bool isGrounded;
     private bool jumpRequested;
     public Rigidbody rb;
+
     [SerializeField] private float movespeed = 8.0f;
+    [SerializeField] private float sprintMultiplier = 2.0f;
+    private bool isSprinting = false;
 
     private float horizontal;
     private float vertical;
@@ -33,6 +36,7 @@ public class PlayerControl : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        isSprinting = Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(horizontal) > 0.01f || Mathf.Abs(vertical) > 0.01f);
 
         if (animator != null)
         {
@@ -72,7 +76,8 @@ public class PlayerControl : MonoBehaviour
             moveDir.Normalize();
         }
 
-        Vector3 newVel = new Vector3(moveDir.x * movespeed, currentVel.y, moveDir.z * movespeed);
+        float finalSpeed = movespeed * (isSprinting ? sprintMultiplier : 1.0f);
+        Vector3 newVel = new Vector3(moveDir.x * finalSpeed, currentVel.y, moveDir.z * finalSpeed);
 
         rb.velocity = Vector3.Lerp(rb.velocity, newVel, Time.deltaTime * 10.0f);
     }
