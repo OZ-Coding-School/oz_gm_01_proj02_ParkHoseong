@@ -151,7 +151,7 @@ public class EnemyManager : MonoBehaviour
             seeingScouts.Add(scout);
 
             if (scoreManager != null && mode == 0)
-                scoreManager.SetWarning(true, "발각되었으니 사살하거나 거리를 벌리세요!");
+                scoreManager.SetWarning(true, "Spotted! Eliminate the scout or break line of sight!");
 
             if (!isSpottingPending)
             {
@@ -188,7 +188,7 @@ public class EnemyManager : MonoBehaviour
             isPlayerSpotted = true;
 
             if (scoreManager != null && mode == 0)
-                scoreManager.SetWarning(true, "발각되었습니다! 적이 모두 몰려옵니다!");
+                scoreManager.SetWarning(true, "Detected! All enemies are converging on your position!");
         }
 
         isSpottingPending = false;
