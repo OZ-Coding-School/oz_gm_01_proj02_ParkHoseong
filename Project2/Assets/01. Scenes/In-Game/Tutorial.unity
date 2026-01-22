@@ -6317,6 +6317,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7ae3119db462ff442974d7d8cbd9e109,
         type: 2}
+    - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
+      propertyPath: clearRewardWeaponScout
+      value: 
+      objectReference: {fileID: 11400000, guid: 350b52a0168bf8f4c976a7bb64008254,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

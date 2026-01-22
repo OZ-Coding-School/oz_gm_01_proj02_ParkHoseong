@@ -360,6 +360,24 @@ PrefabInstance:
       propertyPath: currentStageIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
+      propertyPath: infiniteRewardWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cd03e6232217e2479e044e3ed9d5e0a,
+        type: 2}
+    - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
+      propertyPath: clearRewardWeaponScout
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b76ab7a4d066e645aa3791040a78c4a,
+        type: 2}
+    - target: {fileID: 4190693534685696589, guid: dc75b9126a37ba44094716aa5cb0932f,
+        type: 3}
+      propertyPath: clearRewardWeaponAnnihilation
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ae3119db462ff442974d7d8cbd9e109,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

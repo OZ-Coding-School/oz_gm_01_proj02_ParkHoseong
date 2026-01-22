@@ -19,7 +19,12 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float scoutAlertDelay = 1.5f;
 
     [Header("Clear Reward")]
-    [SerializeField] private WeaponData clearRewardWeapon;
+    [SerializeField] private WeaponData clearRewardWeaponScout;
+    [SerializeField] private WeaponData clearRewardWeaponAnnihilation;
+    [SerializeField] private WeaponData infiniteRewardWeapon;
+    [SerializeField] private int infiniteRewardScoreThreshold = 1000;
+
+    private bool infiniteRewardGranted = false;
 
     public Vector3 PlayerPosition { get; private set; }
     private bool isCleared = false;
@@ -75,6 +80,11 @@ public class EnemyManager : MonoBehaviour
 
         PlayerPosition=player.position;
 
+        if (isInfiniteStage)
+        {
+            CheckInfiniteReward();
+        }
+
         if (!isCleared && !isInfiniteStage)
         {
             if (mode == 0) //정찰 모드
@@ -117,11 +127,17 @@ public class EnemyManager : MonoBehaviour
         {
             DataManager.Instance.ClearMission(currentStageIndex, mode);
 
-            if (clearRewardWeapon != null)
+            if (mode == 0)
             {
-                clearRewardWeapon.isUnlocked = true;
+                clearRewardWeaponScout.isUnlocked = true;
 
-                DataManager.Instance.UnlockWeapon(clearRewardWeapon.weaponName);
+                DataManager.Instance.UnlockWeapon(clearRewardWeaponScout.weaponName);
+            }
+            else if (mode == 1)
+            {
+                clearRewardWeaponAnnihilation.isUnlocked = true;
+
+                DataManager.Instance.UnlockWeapon(clearRewardWeaponAnnihilation.weaponName);
             }
         }
 
@@ -216,6 +232,21 @@ public class EnemyManager : MonoBehaviour
         }
 
         isSpottingPending = false;
+    }
+
+    private void CheckInfiniteReward()
+    {
+        if (infiniteRewardGranted) return;
+
+        if (DataManager.TotalScore >= infiniteRewardScoreThreshold)
+        {
+            infiniteRewardGranted = true;
+
+            infiniteRewardWeapon.isUnlocked = true;
+
+            if (DataManager.Instance != null)
+                DataManager.Instance.UnlockWeapon(infiniteRewardWeapon.weaponName);
+        }
     }
 
     private void OnDrawGizmos()
