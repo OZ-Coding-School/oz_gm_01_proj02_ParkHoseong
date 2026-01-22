@@ -18,7 +18,11 @@ public class WeaponManager : MonoBehaviour
             WeaponBase w = child.GetComponent<WeaponBase>();
             if (w != null)
             {
-                weaponInstances.Add(w);
+                if (w.weaponData.isUnlocked)
+                {
+                    weaponInstances.Add(w);
+                }
+
                 child.gameObject.SetActive(false); //초기화 시 모두 비활성화
             }
         }

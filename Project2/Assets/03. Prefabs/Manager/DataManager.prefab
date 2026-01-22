@@ -47,4 +47,13 @@ MonoBehaviour:
   allWeaponData:
   - {fileID: 11400000, guid: 8c31c8840187cff4cbe8d05e5553b374, type: 2}
   - {fileID: 11400000, guid: 8e12dfeede9903d498e91734dc56589b, type: 2}
-  stageCleared: 0000000000
+  - {fileID: 11400000, guid: bad22cd2230cbeb4fa17d5dc419e42bf, type: 2}
+  - {fileID: 11400000, guid: 2cd03e6232217e2479e044e3ed9d5e0a, type: 2}
+  - {fileID: 11400000, guid: 7ae3119db462ff442974d7d8cbd9e109, type: 2}
+  - {fileID: 11400000, guid: 81161c903ba633441833fa9f38fd2aa0, type: 2}
+  - {fileID: 11400000, guid: c115ec44fdb4d7f4387b8fd3ee113317, type: 2}
+  - {fileID: 11400000, guid: 350b52a0168bf8f4c976a7bb64008254, type: 2}
+  - {fileID: 11400000, guid: d5583dfea781e804c907d2b6d6d9e2c6, type: 2}
+  - {fileID: 11400000, guid: 3b76ab7a4d066e645aa3791040a78c4a, type: 2}
+  stageClearMask: 0000000000000000000000000000000000000000
+  selectedMode: 0

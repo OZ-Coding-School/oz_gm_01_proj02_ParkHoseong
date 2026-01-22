@@ -1488,6 +1488,11 @@ PrefabInstance:
       objectReference: {fileID: 412180055}
     - target: {fileID: 3497843349457391315, guid: f4d6ecbcd6f598445acec80e513021e6,
         type: 3}
+      propertyPath: hitMarkerImage
+      value: 
+      objectReference: {fileID: 1227327800180197405}
+    - target: {fileID: 3497843349457391315, guid: f4d6ecbcd6f598445acec80e513021e6,
+        type: 3}
       propertyPath: isInfiniteMode
       value: 0
       objectReference: {fileID: 0}
@@ -1654,6 +1659,18 @@ PrefabInstance:
 --- !u!114 &1227327800180197404 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1441960137227801563, guid: f4d6ecbcd6f598445acec80e513021e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1227327800180197403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1227327800180197405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2304610660791191318, guid: f4d6ecbcd6f598445acec80e513021e6,
     type: 3}
   m_PrefabInstance: {fileID: 1227327800180197403}
   m_PrefabAsset: {fileID: 0}
@@ -1969,7 +1986,7 @@ PrefabInstance:
     - target: {fileID: 4256208570008857089, guid: 4d1154b9dee33cb4fad486893e9a3277,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5590825359991285483, guid: 4d1154b9dee33cb4fad486893e9a3277,
         type: 3}
@@ -2110,7 +2127,7 @@ PrefabInstance:
     - target: {fileID: 1167934017250071717, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3955380855585237881, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}

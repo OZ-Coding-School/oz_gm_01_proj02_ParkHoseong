@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &19536884371493890
+--- !u!1 &814340701941695064
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,123 +8,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 845068213052424900}
-  - component: {fileID: 175872263942018506}
-  - component: {fileID: 8961072019988889667}
+  - component: {fileID: 1915492395702498}
+  - component: {fileID: 1597728294783072031}
   m_Layer: 0
-  m_Name: Pistol_J_Bolt
+  m_Name: Pistol_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &845068213052424900
+--- !u!4 &1915492395702498
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19536884371493890}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.02775, z: -0.077250004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 752686323466385708}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &175872263942018506
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19536884371493890}
-  m_Mesh: {fileID: 5024055496075466673, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &8961072019988889667
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19536884371493890}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 2a461ee17a7f0b8449bd2c6e34b0e286, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &88317814946030486
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 752686323466385708}
-  m_Layer: 0
-  m_Name: Pistol_J
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &752686323466385708
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88317814946030486}
+  m_GameObject: {fileID: 814340701941695064}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8013893846606646119}
-  - {fileID: 3666257754257113577}
-  - {fileID: 845068213052424900}
-  - {fileID: 3227842301784419726}
-  - {fileID: 8301008281633685683}
-  - {fileID: 7420965119359937839}
-  - {fileID: 6078225155731933394}
+  - {fileID: 1917733201780321414}
+  - {fileID: 915025127986144082}
+  - {fileID: 1267482985611205802}
+  - {fileID: 3423244899193390927}
+  - {fileID: 4329581730964966817}
+  - {fileID: 6006391214589512947}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1710318766370853210
+--- !u!114 &1597728294783072031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814340701941695064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0ad3602d13e4546a5c84c6c68d2698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: d5583dfea781e804c907d2b6d6d9e2c6, type: 2}
+  firePoint: {fileID: 1917733201780321414}
+  scopeOverlay: {fileID: 0}
+  crosshairSprite: {fileID: 0}
+  currentAmmo: 0
+  currentTotalClips: 0
+--- !u!1 &941246574754179302
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,46 +64,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8301008281633685683}
-  - component: {fileID: 3671979412337291192}
-  - component: {fileID: 6135931401775688919}
+  - component: {fileID: 1917733201780321414}
+  - component: {fileID: 8245623428438398037}
+  - component: {fileID: 4471694340005461656}
   m_Layer: 0
-  m_Name: Pistol_J_Receiver
+  m_Name: Pistol_H_Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8301008281633685683
+--- !u!4 &1917733201780321414
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1710318766370853210}
+  m_GameObject: {fileID: 941246574754179302}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0.0000000011641532}
+  m_LocalPosition: {x: -0, y: 0.040000007, z: 0.07499999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 752686323466385708}
+  m_Father: {fileID: 1915492395702498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3671979412337291192
+--- !u!33 &8245623428438398037
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1710318766370853210}
-  m_Mesh: {fileID: 1708793410381539532, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &6135931401775688919
+  m_GameObject: {fileID: 941246574754179302}
+  m_Mesh: {fileID: -1326371313249762204, guid: 05f64eac0250c8240bdfef61de0d4574, type: 3}
+--- !u!23 &4471694340005461656
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1710318766370853210}
+  m_GameObject: {fileID: 941246574754179302}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -182,9 +114,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -210,7 +139,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1969477543759915661
+--- !u!1 &2765223102583623557
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,46 +147,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3227842301784419726}
-  - component: {fileID: 4768127181654542513}
-  - component: {fileID: 1467214341689591193}
+  - component: {fileID: 6006391214589512947}
+  - component: {fileID: 5575429573437151568}
+  - component: {fileID: 2606813275820669410}
   m_Layer: 0
-  m_Name: Pistol_J_Mag
+  m_Name: Pistol_H_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3227842301784419726
+--- !u!4 &6006391214589512947
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969477543759915661}
+  m_GameObject: {fileID: 2765223102583623557}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.13550001, z: -0.06999999}
+  m_LocalPosition: {x: -0, y: 0, z: 0.015000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 752686323466385708}
+  m_Father: {fileID: 1915492395702498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4768127181654542513
+--- !u!33 &5575429573437151568
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969477543759915661}
-  m_Mesh: {fileID: 2870478046429701330, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &1467214341689591193
+  m_GameObject: {fileID: 2765223102583623557}
+  m_Mesh: {fileID: 4020130732467724862, guid: 05f64eac0250c8240bdfef61de0d4574, type: 3}
+--- !u!23 &2606813275820669410
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969477543759915661}
+  m_GameObject: {fileID: 2765223102583623557}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -268,9 +197,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -296,7 +222,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &2736100798383105713
+--- !u!1 &4170399662603941243
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,46 +230,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3666257754257113577}
-  - component: {fileID: 7952349000524459280}
-  - component: {fileID: 5196844232207182121}
+  - component: {fileID: 3423244899193390927}
+  - component: {fileID: 4669775191282299623}
+  - component: {fileID: 6453113759668504898}
   m_Layer: 0
-  m_Name: Pistol_J_BarrelGuard
+  m_Name: Pistol_H_Receiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3666257754257113577
+--- !u!4 &3423244899193390927
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2736100798383105713}
+  m_GameObject: {fileID: 4170399662603941243}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.032000005, z: 0.034999996}
+  m_LocalRotation: {x: -0.00000009735359, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.0012500002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 752686323466385708}
+  m_Father: {fileID: 1915492395702498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7952349000524459280
+--- !u!33 &4669775191282299623
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2736100798383105713}
-  m_Mesh: {fileID: 7596558477907980278, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &5196844232207182121
+  m_GameObject: {fileID: 4170399662603941243}
+  m_Mesh: {fileID: 5846660904761711317, guid: 05f64eac0250c8240bdfef61de0d4574, type: 3}
+--- !u!23 &6453113759668504898
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2736100798383105713}
+  m_GameObject: {fileID: 4170399662603941243}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -354,9 +280,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -382,7 +305,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &5971346474330019115
+--- !u!1 &5499249658621369551
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,46 +313,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6078225155731933394}
-  - component: {fileID: 4031256337151252114}
-  - component: {fileID: 8386175574352247203}
+  - component: {fileID: 1267482985611205802}
+  - component: {fileID: 1100956677721126986}
+  - component: {fileID: 5782812039926908799}
   m_Layer: 0
-  m_Name: Pistol_J_Trigger
+  m_Name: Pistol_H_Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6078225155731933394
+--- !u!4 &1267482985611205802
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971346474330019115}
+  m_GameObject: {fileID: 5499249658621369551}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0022500004, z: 0.008500002}
+  m_LocalPosition: {x: -0, y: -0.1205, z: -0.065}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 752686323466385708}
+  m_Father: {fileID: 1915492395702498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4031256337151252114
+--- !u!33 &1100956677721126986
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971346474330019115}
-  m_Mesh: {fileID: -5906067602707190006, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &8386175574352247203
+  m_GameObject: {fileID: 5499249658621369551}
+  m_Mesh: {fileID: 56040304603564838, guid: 05f64eac0250c8240bdfef61de0d4574, type: 3}
+--- !u!23 &5782812039926908799
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971346474330019115}
+  m_GameObject: {fileID: 5499249658621369551}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -440,9 +363,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -468,7 +388,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &7214275528454487580
+--- !u!1 &6082300115462712278
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -476,46 +396,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7420965119359937839}
-  - component: {fileID: 29664848612463983}
-  - component: {fileID: 4083707548215495776}
+  - component: {fileID: 915025127986144082}
+  - component: {fileID: 4939413929368160334}
+  - component: {fileID: 2815326611913965460}
   m_Layer: 0
-  m_Name: Pistol_J_Sight
+  m_Name: Pistol_H_BarrelGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7420965119359937839
+--- !u!4 &915025127986144082
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7214275528454487580}
+  m_GameObject: {fileID: 6082300115462712278}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.05325, z: 0.034999996}
+  m_LocalPosition: {x: -0, y: 0.04, z: 0.037499994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 752686323466385708}
+  m_Father: {fileID: 1915492395702498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &29664848612463983
+--- !u!33 &4939413929368160334
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7214275528454487580}
-  m_Mesh: {fileID: 6685869192163346538, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &4083707548215495776
+  m_GameObject: {fileID: 6082300115462712278}
+  m_Mesh: {fileID: 162322003137450599, guid: 05f64eac0250c8240bdfef61de0d4574, type: 3}
+--- !u!23 &2815326611913965460
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7214275528454487580}
+  m_GameObject: {fileID: 6082300115462712278}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -526,9 +446,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -554,7 +471,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &8129876090680252715
+--- !u!1 &7905298311459200319
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -562,46 +479,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8013893846606646119}
-  - component: {fileID: 6874791194615768121}
-  - component: {fileID: 2435194463122282298}
+  - component: {fileID: 4329581730964966817}
+  - component: {fileID: 7914538415148176561}
+  - component: {fileID: 7224083428070410539}
   m_Layer: 0
-  m_Name: Pistol_J_Barrel
+  m_Name: Pistol_H_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8013893846606646119
+--- !u!4 &4329581730964966817
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8129876090680252715}
+  m_GameObject: {fileID: 7905298311459200319}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.037, z: 0.095}
+  m_LocalPosition: {x: -0, y: 0.056250006, z: 0.049999997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 752686323466385708}
+  m_Father: {fileID: 1915492395702498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6874791194615768121
+--- !u!33 &7914538415148176561
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8129876090680252715}
-  m_Mesh: {fileID: 4707528229151511103, guid: 557c9c4b66920264b855d4d08f15f3c6, type: 3}
---- !u!23 &2435194463122282298
+  m_GameObject: {fileID: 7905298311459200319}
+  m_Mesh: {fileID: -1581974602680332956, guid: 05f64eac0250c8240bdfef61de0d4574, type: 3}
+--- !u!23 &7224083428070410539
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8129876090680252715}
+  m_GameObject: {fileID: 7905298311459200319}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -612,9 +529,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

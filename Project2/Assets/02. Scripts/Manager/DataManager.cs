@@ -126,7 +126,8 @@ public class DataManager : MonoBehaviour
         {
             if (weapon == null) continue;
             //기본 무기 등 특정 조건이 필요하면 여기서 기본값(0 또는 1)을 설정 가능
-            weapon.isUnlocked = PlayerPrefs.GetInt($"{weapon.weaponName}_Unlocked", 0) == 1;
+            int defaultValue = weapon.isUnlocked ? 1 : 0;
+            weapon.isUnlocked = PlayerPrefs.GetInt($"{weapon.weaponName}_Unlocked", defaultValue) == 1;
         }
 
         //스테이지 클리어 정보 로드

@@ -18,6 +18,9 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private float scoutAlertDelay = 1.5f;
 
+    [Header("Clear Reward")]
+    [SerializeField] private WeaponData clearRewardWeapon;
+
     public Vector3 PlayerPosition { get; private set; }
     private bool isCleared = false;
 
@@ -113,6 +116,13 @@ public class EnemyManager : MonoBehaviour
         if (DataManager.Instance != null)
         {
             DataManager.Instance.ClearMission(currentStageIndex, mode);
+
+            if (clearRewardWeapon != null)
+            {
+                clearRewardWeapon.isUnlocked = true;
+
+                DataManager.Instance.UnlockWeapon(clearRewardWeapon.weaponName);
+            }
         }
 
         if (scoreManager != null && mode == 0) scoreManager.SetWarning(false);

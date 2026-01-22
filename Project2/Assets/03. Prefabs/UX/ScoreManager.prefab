@@ -63,6 +63,9 @@ MonoBehaviour:
   scoutGuideSprite: {fileID: 0}
   annihilationGuideSprite: {fileID: 0}
   infiniteGuideSprite: {fileID: 0}
+  tutorialGuideText: {fileID: 0}
+  damageOverlayImage: {fileID: 1441960137227801563}
+  hitMarkerImage: {fileID: 2304610660791191318}
   CurrentAmmo: 0
   TotalClips: 0
 --- !u!1001 &7572832816086276607
@@ -230,12 +233,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1441960137227801563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9014733417744615972, guid: c8b7d47f52bf8a54085f3a60625ca899,
+    type: 3}
+  m_PrefabInstance: {fileID: 7572832816086276607}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2003780953710532077 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8275020700388051986, guid: c8b7d47f52bf8a54085f3a60625ca899,
     type: 3}
   m_PrefabInstance: {fileID: 7572832816086276607}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2304610660791191318 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8566836590141759209, guid: c8b7d47f52bf8a54085f3a60625ca899,
+    type: 3}
+  m_PrefabInstance: {fileID: 7572832816086276607}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2995425845924435781 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4650521582537002682, guid: c8b7d47f52bf8a54085f3a60625ca899,
