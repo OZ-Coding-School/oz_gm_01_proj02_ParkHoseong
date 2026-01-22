@@ -72,6 +72,7 @@ public class Bullet : MonoBehaviour
             }
 
             targetHealth.TakeDamage(finalDamage, isHeadShot);
+
             ReturnPool();
         }
     }

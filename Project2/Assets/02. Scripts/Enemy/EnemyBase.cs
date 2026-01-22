@@ -277,6 +277,8 @@ public class EnemyBase : HealthBase
         if (scoreManager != null)
         {
             scoreManager.AddScore(finalScore);
+
+            scoreManager.ShowHitMarker(isHeadShot);
         }
 
         if (agent != null) agent.isStopped = true;

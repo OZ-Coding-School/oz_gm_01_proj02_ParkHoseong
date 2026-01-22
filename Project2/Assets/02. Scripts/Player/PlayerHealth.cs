@@ -15,8 +15,12 @@ public class PlayerHealth : HealthBase
 
     public override void TakeDamage(int amount, bool isHeadShot = false)
     {
+        if (isDead) return;
+
         base.TakeDamage(amount, isHeadShot);
         UpdateUI();
+
+        if (scoreManager != null) scoreManager.PlayDamageEffect();
     }
 
     private void UpdateUI()

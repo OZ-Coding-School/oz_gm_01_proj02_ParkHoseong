@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -35,6 +34,13 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Sprite infiniteGuideSprite;
     [SerializeField] private TextMeshProUGUI tutorialGuideText;
 
+    [Header("Hit Feedback")]
+    [SerializeField] private Image damageOverlayImage;
+    [SerializeField] private Image hitMarkerImage;
+
+    private Coroutine damageOverlayCoroutine = null;
+    private Coroutine hitMarkerCoroutine = null;
+
     public int CurrentAmmo;
     public int TotalClips;
     private int MaxAmmo;
@@ -58,6 +64,9 @@ public class ScoreManager : MonoBehaviour
 
         if (warningText != null)
             warningText.text = "";
+
+        if (damageOverlayImage != null) damageOverlayImage.gameObject.SetActive(false);
+        if (hitMarkerImage != null) hitMarkerImage.gameObject.SetActive(false);
 
         SetMissionGuideVisible(false);
 
@@ -246,5 +255,93 @@ public class ScoreManager : MonoBehaviour
         amount = Mathf.Abs(amount);
         DataManager.AddScore(amount);
         UpdateUI();
+    }
+
+    public void PlayDamageEffect()
+    {
+        if (damageOverlayImage == null) return;
+
+        if (damageOverlayCoroutine != null)
+        {
+            StopCoroutine(damageOverlayCoroutine);
+            damageOverlayCoroutine = null;
+        }
+
+        damageOverlayCoroutine = StartCoroutine(CoDamageOverlay());
+    }
+
+    private IEnumerator CoDamageOverlay()
+    {
+        damageOverlayImage.gameObject.SetActive(true);
+
+        Color c = damageOverlayImage.color;
+        c.a = 1f;
+        damageOverlayImage.color = c;
+
+        float t = 0f;
+        const float fadeOutSeconds = 0.35f;
+
+        while (t < fadeOutSeconds)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = 1f - Mathf.Clamp01(t / fadeOutSeconds);
+
+            c = damageOverlayImage.color;
+            c.a = a;
+            damageOverlayImage.color = c;
+
+            yield return null;
+        }
+
+        damageOverlayImage.gameObject.SetActive(false);
+        damageOverlayCoroutine = null;
+    }
+
+    public void ShowHitMarker(bool isHeadShot)
+    {
+        if (hitMarkerImage == null) return;
+
+        if (hitMarkerCoroutine != null)
+        {
+            StopCoroutine(hitMarkerCoroutine);
+            hitMarkerCoroutine = null;
+        }
+
+        hitMarkerCoroutine = StartCoroutine(CoHitMarker(isHeadShot));
+    }
+
+    private IEnumerator CoHitMarker(bool isHeadShot)
+    {
+        hitMarkerImage.gameObject.SetActive(true);
+
+        Color c = hitMarkerImage.color;
+        c.a = 1f;
+        hitMarkerImage.color = c;
+
+        float t = 0f;
+        const float showSeconds = 0.08f;
+        const float fadeOutSeconds = 0.12f;
+
+        while (t < showSeconds)
+        {
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        t = 0f;
+        while (t < fadeOutSeconds)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = 1f - Mathf.Clamp01(t / fadeOutSeconds);
+
+            c = hitMarkerImage.color;
+            c.a = a;
+            hitMarkerImage.color = c;
+
+            yield return null;
+        }
+
+        hitMarkerImage.gameObject.SetActive(false);
+        hitMarkerCoroutine = null;
     }
 }
