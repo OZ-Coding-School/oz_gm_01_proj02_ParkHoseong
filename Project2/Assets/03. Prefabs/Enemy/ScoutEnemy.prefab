@@ -99,10 +99,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fe3082a9d9e114db2de33b2f53c2f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   data: {fileID: 11400000, guid: dbe6d214278d8794da04e3bcde9e2ad0, type: 2}
   attackCool: 1
-  firePoint: {fileID: 8362723148115958566}
-  bulletSpeed: 30
+  weaponPrefab: {fileID: 7340421846482122232}
+  usePatrol: 1
+  patrolPoints: []
+  patrolArriveDistance: 0.6
+  patrolWaitTime: 0.5
 --- !u!1 &4016609276784844141
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,15 +495,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65d4bfa286fab474b943deee58acedb1, type: 3}
---- !u!4 &7968480087373066050 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1915492395702498, guid: 65d4bfa286fab474b943deee58acedb1,
+--- !u!1 &7340421846482122232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 814340701941695064, guid: 65d4bfa286fab474b943deee58acedb1,
     type: 3}
   m_PrefabInstance: {fileID: 7967840031160530848}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &8362723148115958566 stripped
+--- !u!4 &7968480087373066050 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1917733201780321414, guid: 65d4bfa286fab474b943deee58acedb1,
+  m_CorrespondingSourceObject: {fileID: 1915492395702498, guid: 65d4bfa286fab474b943deee58acedb1,
     type: 3}
   m_PrefabInstance: {fileID: 7967840031160530848}
   m_PrefabAsset: {fileID: 0}

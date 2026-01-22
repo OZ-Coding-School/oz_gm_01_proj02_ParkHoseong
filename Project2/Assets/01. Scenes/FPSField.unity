@@ -599,7 +599,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2098865433938328341, guid: 9a0d24bbd89aed44ba107946222c93db, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a0d24bbd89aed44ba107946222c93db, type: 3}
@@ -1708,6 +1709,11 @@ PrefabInstance:
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 48338536}
+    - target: {fileID: 6580447210724908820, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
+        type: 3}
+      propertyPath: maxHealth
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 6580447210724908820, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
         type: 3}
       propertyPath: gameOverPanel

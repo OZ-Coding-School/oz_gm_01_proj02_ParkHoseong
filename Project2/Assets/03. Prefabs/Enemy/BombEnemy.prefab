@@ -132,9 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   data: {fileID: 11400000, guid: cba85673456f282468593180fd9f8ab3, type: 2}
-  attackCool: 1
-  firePoint: {fileID: 1743658210943746475}
-  bulletSpeed: 30
+  attackCool: 10
+  weaponPrefab: {fileID: 0}
   usePatrol: 1
   patrolPoints: []
   patrolArriveDistance: 0.6

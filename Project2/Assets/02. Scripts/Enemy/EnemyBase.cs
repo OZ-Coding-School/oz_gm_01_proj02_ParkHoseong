@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,14 +12,17 @@ public class EnemyBase : HealthBase
     [SerializeField] private float attackCool = 1.0f;
 
     [Header("Ranged Attack")]
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private float bulletSpeed = 30f;
+    [SerializeField] private GameObject weaponPrefab;
 
     [Header("Patrol")]
     [SerializeField] private bool usePatrol = true;
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float patrolArriveDistance = 0.6f;
     [SerializeField] private float patrolWaitTime = 0.5f;
+
+    private WeaponBase weapon;
+    private bool isReloading = false;
+    private Coroutine reloadCoroutine;
 
     private int patrolIndex = 0;
     private int patrolDir = 1; //1 or -1
@@ -57,6 +61,11 @@ public class EnemyBase : HealthBase
             GameObject bmObj = GameObject.Find("EnemyBulletManager");
             if (bmObj != null)
                 bulletManager = bmObj.GetComponent<BulletManager>();
+        }
+
+        if (data.isRanged)
+        {
+            weapon = weaponPrefab.GetComponent<WeaponBase>();
         }
 
         if (enemyManager.isInfiniteStage)
@@ -235,28 +244,40 @@ public class EnemyBase : HealthBase
         if (Time.time < lastAttackTime + attackCool)
             return;
 
-        if (bulletManager == null || firePoint == null)
+        if (isReloading)
             return;
+
+        if (weapon.currentAmmo <= 0)
+        {
+            if (weapon.currentTotalClips > 0)
+            {
+                StartReload();
+            }
+            return;
+        }
 
         lastAttackTime = Time.time;
 
         anim.SetTrigger("Attack");
 
-        Vector3 dir = (enemyManager.PlayerPosition - firePoint.position).normalized;
+        Vector3 dir = (enemyManager.PlayerPosition - weapon.firePoint.position).normalized;
 
         GameObject bulletObj = bulletManager.GetBulletPrefab();
+
         if (bulletObj == null)
             return;
 
-        bulletObj.transform.position = firePoint.position;
+        bulletObj.transform.position = weapon.firePoint.position;
         bulletObj.transform.rotation = Quaternion.LookRotation(dir);
         bulletObj.SetActive(true);
 
         if (bulletObj.TryGetComponent(out Bullet bullet))
         {
             bullet.owner = Bullet.BulletOwner.Enemy;
-            bullet.Shot(dir, bulletSpeed);
+            bullet.Shot(dir, weapon.weaponData.bulletSpeed);
         }
+
+        weapon.currentAmmo--;
 
         Debug.Log($"{data.enemyName} 원거리 공격!");
     }
@@ -327,6 +348,31 @@ public class EnemyBase : HealthBase
         if (TryGetComponent(out Collider col)) col.enabled = true;
     }
 
+    private void StartReload()
+    {
+        if (isReloading)
+            return;
+
+        isReloading = true;
+
+        weapon.currentTotalClips--;
+
+        anim.SetTrigger("Reload");
+
+        reloadCoroutine = StartCoroutine(ReloadRoutine());
+    }
+
+    private IEnumerator ReloadRoutine()
+    {
+        yield return new WaitForSeconds(weapon.weaponData.reloadTime);
+
+        weapon.currentAmmo = weapon.weaponData.maxAmmo;
+
+        isReloading = false;
+
+        reloadCoroutine = null;
+    }
+
     private IEnumerator SuicideSequence()
     {
         //자폭 연출을 위한 짧은 대기(0.5초)
@@ -334,16 +380,19 @@ public class EnemyBase : HealthBase
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
+        HashSet<HealthBase> targets = new HashSet<HealthBase>();
+
         foreach (var hitCollider in hitColliders)
         {
             HealthBase hb = hitCollider.GetComponentInParent<HealthBase>();
 
-            if (hb != null)
+            if (hb != null && targets.Add(hb))
             {
-                //피아구분 없이 데미지 전달
+                //피아구분없음
                 hb.TakeDamage(data.meleeDamage, false);
             }
         }
+        Die();
     }
 
     private void OnDisable()
