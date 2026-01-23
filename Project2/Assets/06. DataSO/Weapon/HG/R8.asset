@@ -21,7 +21,7 @@ MonoBehaviour:
   reloadTime: 1
   bulletSpeed: 40
   maxAmmo: 8
-  maxMag: 5
+  maxMag: 24
   zoomMagnification: 1
   recoilX: -3
   recoilY: -2
