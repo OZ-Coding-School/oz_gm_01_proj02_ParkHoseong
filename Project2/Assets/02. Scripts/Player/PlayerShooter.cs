@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerShooter : MonoBehaviour
@@ -58,6 +59,8 @@ public class PlayerShooter : MonoBehaviour
 
     private WeaponBase activeWeaponObject;
 
+    private bool isReloading;
+    private Coroutine reloadCoroutine;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -263,8 +266,19 @@ public class PlayerShooter : MonoBehaviour
 
     void Reload()
     {
+        if (isReloading) return;
+
         if (activeWeaponObject.currentTotalClips > 0 && activeWeaponObject.currentAmmo < activeWeaponObject.weaponData.maxAmmo)
         {
+            if (activeWeaponObject.weaponData.isSingleLoad)
+            {
+                isReloading = true;
+
+                reloadCoroutine = StartCoroutine(SingleLoadRoutine());
+
+                return;
+            }
+
             if (animator != null) animator.SetTrigger("Reload");
 
             activeWeaponObject.currentTotalClips--;
@@ -280,6 +294,28 @@ public class PlayerShooter : MonoBehaviour
         {
             Debug.Log("재장전 불가 (예비 탄창 없음)");
         }
+    }
+
+    private IEnumerator SingleLoadRoutine()
+    {
+        while (activeWeaponObject.currentAmmo < activeWeaponObject.weaponData.maxAmmo
+               && activeWeaponObject.currentTotalClips > 0)
+        {
+            if (animator != null) animator.SetTrigger("Reload");
+
+            if (activeWeaponObject.weaponData.reloadSound != null)
+                SoundManager.Instance.PlaySfx(activeWeaponObject.weaponData.reloadSound);
+
+            yield return new WaitForSeconds(activeWeaponObject.weaponData.reloadTime);
+
+            activeWeaponObject.currentAmmo++;
+            activeWeaponObject.currentTotalClips--;
+
+            scoreManager?.ConsumeAmmo(activeWeaponObject.currentAmmo, activeWeaponObject.currentTotalClips, activeWeaponObject.weaponData);
+        }
+
+        isReloading = false;
+        reloadCoroutine = null;
     }
 
     public void AddAmmo(int clips)
