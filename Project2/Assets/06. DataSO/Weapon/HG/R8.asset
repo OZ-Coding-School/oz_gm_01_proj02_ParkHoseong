@@ -23,8 +23,8 @@ MonoBehaviour:
   maxAmmo: 8
   maxMag: 5
   zoomMagnification: 1
-  recoilX: -1
-  recoilY: -0.2
+  recoilX: -3
+  recoilY: -2
   snappiness: 20
   returnSpeed: 2
   crosshairSprite: {fileID: 0}
