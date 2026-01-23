@@ -19,6 +19,7 @@ public class EnemyBase : HealthBase
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float patrolArriveDistance = 0.6f;
     [SerializeField] private float patrolWaitTime = 0.5f;
+    [SerializeField] private float faceTurnSpeed = 12f;
 
     private WeaponBase weapon;
     private bool isReloading = false;
@@ -112,6 +113,7 @@ public class EnemyBase : HealthBase
     //시야 판정
     void UpdateSight()
     {
+        bool wasSeeingPlayer = canSeePlayer;
         canSeePlayer = false;
 
         Vector3 targetPos = enemyManager.PlayerPosition;
@@ -121,11 +123,21 @@ public class EnemyBase : HealthBase
         bool inRange = distToPlayer <= data.findRange;
         bool inFov = angle <= data.fieldOfView * 0.5f;
 
-        if (inRange && inFov)
+        if (inRange)
         {
-            if (!Physics.Raycast(transform.position + Vector3.up * 1.5f, dirToPlayer, distToPlayer, data.obstacleMask))
+            bool hasLineOfSight = !Physics.Raycast(
+                transform.position + Vector3.up * 1.5f,
+                dirToPlayer,
+                distToPlayer,
+                data.obstacleMask
+            );
+
+            if (hasLineOfSight && (inFov || wasSeeingPlayer))
+            {
                 canSeePlayer = true;
+            }
         }
+
         if (data.isScout && enemyManager != null)
             enemyManager.SetScoutSeeing(this, canSeePlayer);
     }
@@ -139,6 +151,8 @@ public class EnemyBase : HealthBase
 
         if (seen)
         {
+            FacePlayer();
+
             if (dist > data.attackRange)
             {
                 agent.isStopped = false;
@@ -175,6 +189,18 @@ public class EnemyBase : HealthBase
                     agent.ResetPath();
             }
         }
+    }
+
+    private void FacePlayer()
+    {
+        Vector3 toPlayer = enemyManager.PlayerPosition - transform.position;
+        toPlayer.y = 0f;
+
+        if (toPlayer.sqrMagnitude <= 0.0001f)
+            return;
+
+        Quaternion targetRot = Quaternion.LookRotation(toPlayer.normalized);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * faceTurnSpeed);
     }
 
     private void UpdatePatrol()

@@ -138,6 +138,7 @@ MonoBehaviour:
   patrolPoints: []
   patrolArriveDistance: 0.6
   patrolWaitTime: 0.5
+  faceTurnSpeed: 12
 --- !u!1 &4016609276784844141
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +446,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Low_P_Bot_0101 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: cc43f93e858a07840b020f15ba662483,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: eae034c19a2a74645a0cc55694203bf3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

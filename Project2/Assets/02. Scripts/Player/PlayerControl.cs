@@ -40,7 +40,13 @@ public class PlayerControl : MonoBehaviour
 
         if (animator != null)
         {
-            float moveSpeedForAnim = new Vector2(horizontal, vertical).magnitude;
+            Vector2 moveInput = new Vector2(horizontal, vertical);
+
+            float moveSpeedForAnim = Mathf.Min(1.0f, moveInput.magnitude);
+
+            if (isSprinting)
+                moveSpeedForAnim *= sprintMultiplier;
+
             animator.SetFloat("Speed", moveSpeedForAnim); //
             animator.SetBool("IsGround", isGrounded); //
         }
