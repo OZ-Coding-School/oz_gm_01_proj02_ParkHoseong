@@ -16,7 +16,7 @@ MonoBehaviour:
   isUnlocked: 0
   isAuto: 1
   isSingleLoad: 0
-  damage: 40
+  damage: 30
   fireRate: 0.1
   reloadTime: 3
   bulletSpeed: 40

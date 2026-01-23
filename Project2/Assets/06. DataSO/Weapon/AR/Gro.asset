@@ -17,7 +17,7 @@ MonoBehaviour:
   isAuto: 1
   isSingleLoad: 0
   damage: 80
-  fireRate: 0.3
+  fireRate: 0.5
   reloadTime: 5
   bulletSpeed: 40
   maxAmmo: 30
