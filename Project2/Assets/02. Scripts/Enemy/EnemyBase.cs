@@ -21,6 +21,9 @@ public class EnemyBase : HealthBase
     [SerializeField] private float patrolWaitTime = 0.5f;
     [SerializeField] private float faceTurnSpeed = 12f;
 
+    [Header("Explosion VFX")]
+    [SerializeField] private GameObject explosionEffectPrefab;
+
     private WeaponBase weapon;
     private bool isReloading = false;
     private Coroutine reloadCoroutine;
@@ -404,6 +407,8 @@ public class EnemyBase : HealthBase
         //자폭 연출을 위한 짧은 대기(0.5초)
         yield return new WaitForSeconds(0.5f);
 
+        Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
         HashSet<HealthBase> targets = new HashSet<HealthBase>();
@@ -415,7 +420,7 @@ public class EnemyBase : HealthBase
             if (hb != null && targets.Add(hb))
             {
                 //피아구분없음
-                hb.TakeDamage(data.meleeDamage, false);
+                hb.TakeDamage(data.bombDamage, false);
             }
         }
         Die();

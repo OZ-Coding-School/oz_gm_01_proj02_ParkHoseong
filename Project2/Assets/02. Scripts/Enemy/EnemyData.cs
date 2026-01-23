@@ -13,6 +13,7 @@ public class EnemyData : ScriptableObject
     public float findRange = 15f;
     public float attackRange = 10f;
     public int meleeDamage = 0;
+    public int bombDamage = 0;
 
     [Header("Sight Settings")]
     [Range(10, 180)] public float fieldOfView = 60f;

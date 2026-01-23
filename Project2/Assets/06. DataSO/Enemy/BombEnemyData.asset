@@ -18,7 +18,8 @@ MonoBehaviour:
   baseMoveSpeed: 3.5
   findRange: 20
   attackRange: 5
-  meleeDamage: 9999
+  meleeDamage: 10
+  bombDamage: 9999
   fieldOfView: 60
   obstacleMask:
     serializedVersion: 2
@@ -29,3 +30,4 @@ MonoBehaviour:
   playerTag: Player
   isRanged: 0
   isMelee: 1
+  isScout: 0

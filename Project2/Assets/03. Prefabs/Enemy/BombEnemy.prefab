@@ -139,6 +139,8 @@ MonoBehaviour:
   patrolArriveDistance: 0.6
   patrolWaitTime: 0.5
   faceTurnSpeed: 12
+  explosionEffectPrefab: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b,
+    type: 3}
 --- !u!1 &4016609276784844141
 GameObject:
   m_ObjectHideFlags: 0
