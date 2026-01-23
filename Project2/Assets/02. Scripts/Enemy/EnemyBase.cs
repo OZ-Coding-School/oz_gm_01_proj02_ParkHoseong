@@ -22,7 +22,7 @@ public class EnemyBase : HealthBase
     [SerializeField] private float faceTurnSpeed = 12f;
 
     [Header("Explosion VFX")]
-    [SerializeField] private GameObject explosionEffectPrefab;
+    [SerializeField] private ParticleSystem explosionFx;
 
     private WeaponBase weapon;
     private bool isReloading = false;
@@ -407,8 +407,8 @@ public class EnemyBase : HealthBase
         //자폭 연출을 위한 짧은 대기(0.5초)
         yield return new WaitForSeconds(0.5f);
 
-        GameObject fx = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        Destroy(fx, 3f);
+        explosionFx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        explosionFx.Play(true);
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
 

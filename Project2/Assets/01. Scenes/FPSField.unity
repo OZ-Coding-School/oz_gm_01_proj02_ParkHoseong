@@ -1707,6 +1707,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6203131832332546773, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
         type: 3}
+      propertyPath: zoomPos.z
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203131832332546773, guid: 71ae414ffc07d1d47a2ad79bfb9657b2,
+        type: 3}
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 48338536}
@@ -2135,7 +2140,7 @@ PrefabInstance:
     - target: {fileID: 1167934017250071717, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3955380855585237881, guid: dc75b9126a37ba44094716aa5cb0932f,
         type: 3}
