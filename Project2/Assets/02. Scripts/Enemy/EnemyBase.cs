@@ -407,7 +407,8 @@ public class EnemyBase : HealthBase
         //자폭 연출을 위한 짧은 대기(0.5초)
         yield return new WaitForSeconds(0.5f);
 
-        Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        GameObject fx = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(fx, 3f);
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
