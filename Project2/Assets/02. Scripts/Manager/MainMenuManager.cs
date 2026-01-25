@@ -26,11 +26,9 @@ public class MainMenuManager : MonoBehaviour
     }
     public void StartNewGame()
     {
-        PlayerPrefs.DeleteAll();
-
         if (DataManager.Instance != null)
         {
-            DataManager.Instance.Load();
+            DataManager.Instance.ResetAllData();
         }
 
         SceneManager.LoadScene("StageSelectScene");
